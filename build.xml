@@ -102,7 +102,7 @@
 			<frameworks root="System" embed="${embed.System}" eclipse="true" />
 			<frameworks root="Network" embed="${embed.Network}" eclipse="true" />
 
-			<lib dir="NonIncludedJARs">
+			<lib dir="Libraries">
 				<include name="*.jar" />
 			</lib>
 		</woapplication>
@@ -203,7 +203,7 @@
 		<taskdef name="wocompile" classname="org.objectstyle.woproject.ant.WOCompile" />
 
 		<mkdir dir="bin" />
-		<wocompile srcdir="src" destdir="bin">
+		<wocompile srcdir="Sources" destdir="bin">
 			<frameworks root="ProjectLocal" embed="false" eclipse="true" />
 			<frameworks root="External" embed="false" eclipse="true" />
 			<frameworks root="Local" embed="false" eclipse="true" />
@@ -211,7 +211,7 @@
 			<frameworks root="System" embed="false" eclipse="true" />
 			<frameworks root="Network" embed="false" eclipse="true" />
 			<classpath>
-				<fileset dir="NonIncludedJARs">
+				<fileset dir="Libraries">
 					<include name="*.jar" />
 				</fileset>
 				<fileset dir="${wo.extensions}">

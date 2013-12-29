@@ -1,24 +1,2 @@
-#Mon Dec 21 21:56:37 EST 2009
 eclipse.preferences.version=1
-encoding//Components/FileDownloadPage.wo/FileDownloadPage.wod=MacRoman
-encoding//Components/FileViewPage.wo/FileViewPage.wod=MacRoman
-encoding//Components/Main.wo/Main.wod=MacRoman
-encoding//Components/XWMCompose.wo/XWMCompose.wod=MacRoman
-encoding//Components/XWMContent.wo/XWMContent.wod=MacRoman
-encoding//Components/XWMList.wo/XWMList.wod=MacRoman
-encoding//Components/XWMLocalizedString.wo/XWMLocalizedString.wod=MacRoman
-encoding//Components/XWMMultipartContent.wo/XWMMultipartContent.wod=MacRoman
-encoding//Components/XWMPageWrapper.wo/XWMPageWrapper.wod=MacRoman
-encoding//Components/XWMPartContent.wo/XWMPartContent.wod=MacRoman
-encoding//Components/XWMViewMessage.wo/XWMViewMessage.wod=MacRoman
-encoding//build/wobmail.woa/Contents/Resources/FileDownloadPage.wo/FileDownloadPage.wod=MacRoman
-encoding//build/wobmail.woa/Contents/Resources/FileViewPage.wo/FileViewPage.wod=MacRoman
-encoding//build/wobmail.woa/Contents/Resources/Main.wo/Main.wod=MacRoman
-encoding//build/wobmail.woa/Contents/Resources/XWMCompose.wo/XWMCompose.wod=MacRoman
-encoding//build/wobmail.woa/Contents/Resources/XWMContent.wo/XWMContent.wod=MacRoman
-encoding//build/wobmail.woa/Contents/Resources/XWMList.wo/XWMList.wod=MacRoman
-encoding//build/wobmail.woa/Contents/Resources/XWMLocalizedString.wo/XWMLocalizedString.wod=MacRoman
-encoding//build/wobmail.woa/Contents/Resources/XWMMultipartContent.wo/XWMMultipartContent.wod=MacRoman
-encoding//build/wobmail.woa/Contents/Resources/XWMPageWrapper.wo/XWMPageWrapper.wod=MacRoman
-encoding//build/wobmail.woa/Contents/Resources/XWMPartContent.wo/XWMPartContent.wod=MacRoman
-encoding//build/wobmail.woa/Contents/Resources/XWMViewMessage.wo/XWMViewMessage.wod=MacRoman
+encoding//Components=UTF-8

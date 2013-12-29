@@ -1,5 +1,5 @@
 # Domain name or IP address of default incoming mail server 
-net.xytra.wobmail.DefaultIncomingMailServerAddress = 172.16.1.20
+net.xytra.wobmail.DefaultIncomingMailServerAddress = 172.16.1.45
 
 # Application-wide encoding except ERJavaMail
 er.extensions.ERXApplication.DefaultMessageEncoding=UTF-8
@@ -100,7 +100,7 @@ er.javamail.debugEnabled = false
 er.javamail.adminEmail = jonny@xl.xytra.net
 
 # * SMTP outbound host
-er.javamail.smtpHost = 172.16.1.20
+er.javamail.smtpHost = 172.16.1.45
 
 # * The port to use with the smtp server, if not set, defaults to 25
 #er.javamail.smtpPort = 25
@@ -109,7 +109,7 @@ er.javamail.smtpHost = 172.16.1.20
 #er.javamail.emailPattern = ^.*?@.*$
 
 # Other JavaMail properties (the following are not defaults)
-mail.smtp.host = 172.16.1.20
+mail.smtp.host = 172.16.1.45
 mail.smtp.port = 25
 #mail.smtp.connectiontimeout = 600000
 #mail.smtp.timeout = 600000
