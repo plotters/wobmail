@@ -16,5 +16,6 @@
 	<classpathentry kind="con" path="WOFramework/ERJavaMail"/>
 	<classpathentry kind="lib" path="NonIncludedJARs/JavaWOJSPServlet_client.jar"/>
 	<classpathentry kind="con" path="WOFramework/Ajax"/>
+	<classpathentry kind="con" path="WOFramework/ERPrototaculous"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
