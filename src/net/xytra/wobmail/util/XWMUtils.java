@@ -146,7 +146,7 @@ public class XWMUtils
 		else if (addresses.length == 0)
 			return ("(None)");
 
-		Enumeration<Address> en1 = new NSArray(addresses).objectEnumerator();
+		Enumeration<Address> en1 = new NSArray<Address>(addresses).objectEnumerator();
 		StringBuffer sb = new StringBuffer();
 		sb.append(en1.nextElement().toString());
 

@@ -36,7 +36,7 @@ public class Main extends ERXNonSynchronizingComponent
 
 	public String currentLanguage;
 
-	private NSArray availableLanguages; 
+	private NSArray<String> availableLanguages; 
 	private Map<String, String> languageNameMap = new HashMap<String, String>();
 	private ERXLocalizer localizer;
 

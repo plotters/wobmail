@@ -100,7 +100,7 @@ public class Pop3MailSession extends AbstractMailSession
 	protected NSArray<MessageRow> getOrderedMessageRows(NSDictionary<Integer, MessageRow> messageRows, NSArray<Integer> messageNumbers) {
 		NSMutableArray<MessageRow> orderedMessageRows = new NSMutableArray<MessageRow>();
 
-		Enumeration en1 = messageNumbers.objectEnumerator();
+		Enumeration<Integer> en1 = messageNumbers.objectEnumerator();
 		while (en1.hasMoreElements()) {
 			orderedMessageRows.addObject(messageRows.objectForKey(en1.nextElement()));
 		}
@@ -140,7 +140,7 @@ public class Pop3MailSession extends AbstractMailSession
 	}
 
 	protected NSArray<MessageRow> getFreshUnsortedMessageRowsForInbox() throws MessagingException {
-		NSArray unsortedMessageRows;
+		NSArray<MessageRow> unsortedMessageRows;
 
 		// Only allow one such access at a time through this session
 		synchronized (this) {
@@ -203,8 +203,8 @@ public class Pop3MailSession extends AbstractMailSession
 		}
 	}
 
-	private Map folderNameToSortKeyMap = Collections.synchronizedMap(new HashMap<String, String>());
-	private Map folderNameToReverseSortMap = Collections.synchronizedMap(new HashMap<String, Boolean>());
+	private Map<String, String> folderNameToSortKeyMap = Collections.synchronizedMap(new HashMap<String, String>());
+	private Map<String, Boolean> folderNameToReverseSortMap = Collections.synchronizedMap(new HashMap<String, Boolean>());
 
 	public String sortKeyForFolder(String folderName) {
 		String sortKey = (String)folderNameToSortKeyMap.get(folderName);

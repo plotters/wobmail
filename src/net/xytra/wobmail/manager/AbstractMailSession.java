@@ -159,7 +159,7 @@ public abstract class AbstractMailSession implements MailSession
 	// Folders
 	protected abstract void forgetOpenFolders();
 
-	protected abstract NSArray getOpenFolders();
+	protected abstract NSArray<Folder> getOpenFolders();
 
 	// Messages
 	public MessageRow getMessageRowForFolderByIndex(String folderName, int index) throws MessagingException {

@@ -98,13 +98,13 @@ public class XWMCompose extends XWMAbstractPage
 		ERMailDeliveryPlainText mail = new ERMailDeliveryPlainText();
 		try
 		{
-			mail.setToAddresses(new NSArray(toAddresses.split(",")));
+			mail.setToAddresses(new NSArray<String>(toAddresses.split(",")));
 
 			if ((ccAddresses != null) && (ccAddresses.length() > 0))
-				mail.setCCAddresses(new NSArray(ccAddresses.split(",")));
+				mail.setCCAddresses(new NSArray<String>(ccAddresses.split(",")));
 
 			if ((bccAddresses != null) && (bccAddresses.length() > 0))
-				mail.setBCCAddresses(new NSArray(bccAddresses.split(",")));
+				mail.setBCCAddresses(new NSArray<String>(bccAddresses.split(",")));
 
 			String subject = subject();
 			mail.setSubject((subject != null) && (subject.length() > 0) ? subject : "(No subject)");
