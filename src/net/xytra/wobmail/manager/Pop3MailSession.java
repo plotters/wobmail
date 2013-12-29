@@ -73,7 +73,13 @@ public class Pop3MailSession extends AbstractMailSession
 			throw (new MailSessionException("Cannot get MessageRow objects for specified folderName as such a folder does not exist"));
 		}
 
-		if (forceReload || (cachedSortedInboxMessageNumbers == null) || (cachedSortedInboxMessageRows == null)) {
+		// forceReload == true means that we have to invalidate the message numbers and rows
+		if (forceReload) {
+			cachedSortedInboxMessageNumbers = null;
+			cachedSortedInboxMessageRows = null;
+		}
+
+		if ((cachedSortedInboxMessageNumbers == null) || (cachedSortedInboxMessageRows == null)) {
 			NSDictionary<Integer, MessageRow> messageRowsDictionary = getMessageRowDictionaryForFolder(folderName, forceReload);
 
 			if (cachedSortedInboxMessageNumbers == null) {
