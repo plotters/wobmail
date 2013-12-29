@@ -12,11 +12,11 @@
 				<tbody>
 					<tr id="languageSelectionRow">
 						<td>
-							<form action="login" method="get" name="languageForm">
+							<webobject name = "LanguageForm">
 								<webobject name="LanguageString" />:
 								<webobject name="LanguagePopUpButton"><webobject name="LanguageOptionsRepetition"><webobject name="LanguageOptionGeneric"><webobject name="LanguageOptionNameString" /></webobject></webobject></webobject>
 								<noscript><webobject name="LanguageChangeSubmitGeneric" /></noscript>
-							</form>
+							</webobject>
 						</td>
 					</tr>
 					<tr id="mainRow">
@@ -28,7 +28,7 @@
 									<td bgcolor="black" width="1"><img src="/wobmail/images/spacer.gif" border="0" height="1" width="1" /></td>
 									<td align="center">
 										<webobject name="ShowErrorConditional"><webobject name="ErrorString" /></webobject>
-										<form action="login" method="post" name="loginForm">
+										<webobject name = "LoginForm">
 											<table align="center" id="coreLoginTable">
 												<tr>
 													<td class="loginLabel"><webobject name="UsernameString" />:</td>
@@ -44,7 +44,7 @@
 												</tr>
 											</table>
 											<webobject name="LanguageHiddenGeneric" />
-										</form>
+										</webobject>
 									</td>
 								</tr>
 							</table>

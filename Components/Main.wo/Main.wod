@@ -8,6 +8,12 @@ LanguageChangeSubmitGeneric: WOGenericElement {
 	value = localizedStringChangeLanguage;
 }
 
+LanguageForm : WOForm {
+	directActionName = "login";
+	method = "get";
+	name = "languageForm";
+}
+
 LanguageHiddenGeneric: WOHiddenField {
 	name = "l";
 	value = selectedLanguage;
@@ -37,6 +43,12 @@ LanguagePopUpButton: WOGenericContainer {
 LanguageString: XWMLocalizedString {
 	localizer = localizer;
 	value = "Main.Language";
+}
+
+LoginForm : WOForm {
+	directActionName = "login";
+	method = "post";
+	name = "loginForm";
 }
 
 PasswordString: XWMLocalizedString {
