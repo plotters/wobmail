@@ -1,4 +1,4 @@
-package net.xytra.wobmail.manager;
+package net.xytra.wobmail.mailconn.session;
 
 public class MailSessionException extends RuntimeException {
 	public MailSessionException() {

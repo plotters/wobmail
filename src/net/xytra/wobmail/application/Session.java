@@ -5,7 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import net.xytra.wobmail.export.ExportVisitor;
-import net.xytra.wobmail.manager.MailSession;
+import net.xytra.wobmail.mailconn.session.MailSession;
 import net.xytra.wobmail.manager.Pop3MailSessionManager;
 import net.xytra.wobmail.util.LocaleUtils;
 

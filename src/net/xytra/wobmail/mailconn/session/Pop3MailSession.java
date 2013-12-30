@@ -1,4 +1,4 @@
-package net.xytra.wobmail.manager;
+package net.xytra.wobmail.mailconn.session;
 
 import java.util.Collections;
 import java.util.Enumeration;

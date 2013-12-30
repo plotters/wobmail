@@ -1,4 +1,4 @@
-package net.xytra.wobmail.manager;
+package net.xytra.wobmail.mailconn.session;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;

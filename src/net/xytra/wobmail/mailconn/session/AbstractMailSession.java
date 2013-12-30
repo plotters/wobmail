@@ -1,4 +1,4 @@
-package net.xytra.wobmail.manager;
+package net.xytra.wobmail.mailconn.session;
 
 import java.util.Enumeration;
 import java.util.Properties;
@@ -44,7 +44,7 @@ public abstract class AbstractMailSession implements MailSession
 	 * @return whether the connection to Store is really open.
 	 * @throws MessagingException
 	 */
-	synchronized boolean keepConnectionOpen(boolean reschedule) throws MessagingException {
+	synchronized public boolean keepConnectionOpen(boolean reschedule) throws MessagingException {
 		System.err.println("keepConnectionOpen("+reschedule+") ...");
 
 		// Deschedule closeSessionTask

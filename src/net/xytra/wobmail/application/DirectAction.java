@@ -13,7 +13,7 @@ import net.xytra.wobmail.components.XWMCompose;
 import net.xytra.wobmail.components.XWMList;
 import net.xytra.wobmail.components.XWMViewMessage;
 import net.xytra.wobmail.export.ExportVisitable;
-import net.xytra.wobmail.manager.MailSession;
+import net.xytra.wobmail.mailconn.session.MailSession;
 import net.xytra.wobmail.misc.MessageRow;
 
 import com.webobjects.appserver.WOActionResults;

@@ -6,7 +6,7 @@ import java.util.Enumeration;
 import javax.mail.MessagingException;
 
 import net.xytra.wobmail.application.Application;
-import net.xytra.wobmail.manager.MailSession;
+import net.xytra.wobmail.mailconn.session.MailSession;
 import net.xytra.wobmail.misc.MessageRow;
 
 import com.webobjects.appserver.WOComponent;

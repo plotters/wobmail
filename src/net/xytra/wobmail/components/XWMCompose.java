@@ -7,8 +7,8 @@ import java.util.Enumeration;
 import java.util.regex.Pattern;
 
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Message.RecipientType;
+import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.MimeMessage;
 

@@ -1,7 +1,7 @@
 package net.xytra.wobmail.components;
 
 import net.xytra.wobmail.application.Session;
-import net.xytra.wobmail.manager.MailSession;
+import net.xytra.wobmail.mailconn.session.MailSession;
 
 import com.webobjects.appserver.WOContext;
 

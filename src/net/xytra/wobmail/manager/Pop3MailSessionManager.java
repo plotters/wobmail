@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.mail.MessagingException;
 
 import net.xytra.wobmail.application.Session;
+import net.xytra.wobmail.mailconn.session.MailSession;
+import net.xytra.wobmail.mailconn.session.Pop3MailSession;
 
 public class Pop3MailSessionManager implements MailSessionManager
 {

@@ -10,7 +10,7 @@ import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
 
 import net.xytra.wobmail.application.Session;
-import net.xytra.wobmail.manager.MailSessionException;
+import net.xytra.wobmail.mailconn.session.MailSessionException;
 import net.xytra.wobmail.manager.Pop3MailSessionManager;
 import net.xytra.wobmail.util.LocaleUtils;
 
