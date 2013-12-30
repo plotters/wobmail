@@ -100,11 +100,18 @@ public class XWMList extends XWMAbstractPage
 	}
 
 	/**
-	 * Set messages as selected as per specified type. 
+	 * Set messages as selected as per specified type.
+	 * If selectionType is <code>null</code>, do nothing.  If not one of the
+	 * values of the SelectionType enum, do nothing.
+	 *
 	 * @param selectionType ALL or NONE
 	 * @throws MessagingException
 	 */
 	public void setMessagesAsSelected(String selectionType) throws MessagingException {
+		if (selectionType == null) {
+			return;
+		}
+
 		try {
 			setMessageAsSelected(SelectionType.valueOf(selectionType));
 		} catch (IllegalArgumentException e) {

@@ -72,9 +72,8 @@ NextPageHyperlink: WOHyperlink {
 	?page = nextPageIndex;
 }
 
-NumPerPageFormGeneric: WOGenericContainer {
-	action = "list";
-	elementName = "form";
+NumPerPageForm: WOForm {
+	directActionName = "list";
 	method = "get";
 }
 
@@ -134,11 +133,6 @@ SenderHeaderHyperlink: WOHyperlink {
 
 SenderString: WOString {
 	value = currentMessageRow.sender;
-}
-
-SessionIDHidden: WOHiddenField {
-	name = "wosid";
-	value = session.sessionID;
 }
 
 ShowFirstPreviousConditional: WOConditional {
