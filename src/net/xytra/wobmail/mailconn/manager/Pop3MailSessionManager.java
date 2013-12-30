@@ -1,4 +1,4 @@
-package net.xytra.wobmail.manager;
+package net.xytra.wobmail.mailconn.manager;
 
 import java.util.HashMap;
 import java.util.Map;
