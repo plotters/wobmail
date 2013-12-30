@@ -6,7 +6,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.mail.Folder;
-import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
@@ -14,6 +13,7 @@ import javax.mail.Store;
 import javax.mail.internet.MimeMessage;
 
 import net.xytra.wobmail.application.Application;
+import net.xytra.wobmail.mailconn.WobmailException;
 import net.xytra.wobmail.misc.MessageRow;
 
 import com.webobjects.foundation.NSArray;
@@ -62,11 +62,15 @@ public abstract class AbstractMailSession implements MailSession
 		return (isConnectionToStoreOpen);
 	}
 
-	public void keepConnectionOpenForMessage(Message message) throws MessagingException {
-		if (keepConnectionOpen(false)) {
-			obtainOpenFolder(message.getFolder());
-		} else {
-			throw (new MailSessionException("Could not get folder open: " + message.getFolder()));
+	public void keepConnectionOpenForMessage(MessageRow messageRow) {
+		try {
+			if (keepConnectionOpen(false)) {
+				obtainOpenFolder(messageRow.getMessage().getFolder());
+			} else {
+				throw (new WobmailException("Could not get folder open: " + messageRow.getMessage().getFolder()));
+			}
+		} catch (MessagingException e) {
+			throw (new WobmailException(e));
 		}
 	}
 
@@ -162,22 +166,6 @@ public abstract class AbstractMailSession implements MailSession
 	protected abstract NSArray<Folder> getOpenFolders();
 
 	// Messages
-	public MessageRow getMessageRowForFolderByIndex(String folderName, int index) throws MessagingException {
-		return (getMessageRowsForFolder(folderName).objectAtIndex(index));
-	}
-
-	public NSArray<MessageRow> getMessageRowsForFolder(String folderName) throws MessagingException {
-		return (getMessageRowsForFolder(folderName, false));
-	}
-
-	public int getNumberMessagesInFolder(String folderName) throws MessagingException {
-		return (getMessageRowsForFolder(folderName).size());
-	}
-
-	public void moveMessageRowToFolder(MessageRow messageRow, String folderName) throws MessagingException {
-		moveMessageRowsToFolder(new NSArray<MessageRow>(messageRow), folderName);
-	}
-
 	public MimeMessage obtainNewMimeMessage() {
 		return (new MimeMessage(mailSession));
 	}

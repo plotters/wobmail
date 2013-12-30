@@ -6,7 +6,8 @@ import java.util.Enumeration;
 import javax.mail.MessagingException;
 
 import net.xytra.wobmail.application.Application;
-import net.xytra.wobmail.mailconn.session.MailSession;
+import net.xytra.wobmail.mailconn.folder.WobmailFolder;
+import net.xytra.wobmail.mailconn.folder.WobmailFolderType;
 import net.xytra.wobmail.misc.MessageRow;
 
 import com.webobjects.appserver.WOComponent;
@@ -50,8 +51,8 @@ public class XWMList extends XWMAbstractPage
 		// Mark selected messages as deleted and return to List
 		NSArray<MessageRow> selectedMessageRows = getSelectedMessageRows();
 		if (selectedMessageRows.size() > 0) {
-			session().getMailSession().moveMessageRowsToFolder(
-					selectedMessageRows, MailSession.TRASH_FOLDER_NAME);
+			getActiveFolder().moveMessageRowsToFolder(
+					selectedMessageRows, WobmailFolderType.TRASH.name());
 
 			// Reset cached arrays
 			availableMessages = null;
@@ -133,6 +134,12 @@ public class XWMList extends XWMAbstractPage
 		}
 	}
 
+	// Folders
+	// TODO: this most certainly has to be improved
+	protected WobmailFolder getActiveFolder() {
+		return (session().getCurrentFolder());
+	}
+
 	// Data
 	public NSArray<MessageRow> getAvailableMessages() throws MessagingException
 	{
@@ -149,7 +156,7 @@ public class XWMList extends XWMAbstractPage
 	 */
 	protected NSArray<MessageRow> messageArrayForCurrentFolder() throws MessagingException {
 		if (messageArrayForCurrentFolder == null) {
-			messageArrayForCurrentFolder = getMailSession().getMessageRowsForFolder(MailSession.INBOX_FOLDER_NAME, getForceListReload());
+			messageArrayForCurrentFolder = getActiveFolder().getMessages(getForceListReload());
 		}
 
 		return (messageArrayForCurrentFolder);
@@ -209,14 +216,8 @@ public class XWMList extends XWMAbstractPage
 	 * @return current folder name or localized version of "Inbox" if current folder is "INBOX".
 	 */
 	public String currentFolderName() {
-		String currentFolderName = session().getCurrentFolderName();
-
-		if (currentFolderName.equals(MailSession.INBOX_FOLDER_NAME)) {
-			// TODO: Localize
-			return ("Inbox");
-		} else {
-			return (currentFolderName);
-		}
+		// TODO: localize
+		return (getActiveFolder().getName());
 	}
 
 	public boolean showFirstAndPreviousLinks() {

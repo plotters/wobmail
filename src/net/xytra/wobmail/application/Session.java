@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import net.xytra.wobmail.export.ExportVisitor;
+import net.xytra.wobmail.mailconn.folder.WobmailFolder;
 import net.xytra.wobmail.mailconn.manager.Pop3MailSessionManager;
 import net.xytra.wobmail.mailconn.session.MailSession;
 import net.xytra.wobmail.util.LocaleUtils;
@@ -21,7 +22,7 @@ public class Session extends ERXSession
 
 	private NSMutableArray<ExportVisitor> downloadableObjects = new NSMutableArray<ExportVisitor>();
 
-	private String currentFolderName = null;
+	private WobmailFolder currentFolder = null;
 
 	private MailSession mailSession;
 
@@ -76,27 +77,27 @@ public class Session extends ERXSession
 
 	// Current mail viewing parameters
 	/**
-	 * @return the current folder name, with INBOX as default if null. 
+	 * @return current folder, and if none currently set, Inbox folder
 	 */
-	public String getCurrentFolderName() {
-		if (currentFolderName == null) {
-			currentFolderName = MailSession.INBOX_FOLDER_NAME;
+	public WobmailFolder getCurrentFolder() {
+		if (currentFolder == null) {
+			currentFolder = getMailSession().getInboxFolder();
 		}
 
-		return (currentFolderName);
+		return (currentFolder);
 	}
 
 	/**
-	 * Set the new current folder by its name.
+	 * Set the new current folder.
 	 *
-	 * @param newFolderName name of the folder to set as current.
+	 * @param newFolder folder to set as current folder.
 	 */
-	public void setCurrentFolderName(String newFolderName) {
-		if (newFolderName == null) {
+	public void setCurrentFolder(WobmailFolder newFolder) {
+		if (newFolder == null) {
 			throw (new NullPointerException());
 		}
 
-		currentFolderName = newFolderName;
+		currentFolder = newFolder;
 	}
 
 	/**
@@ -186,11 +187,11 @@ public class Session extends ERXSession
 	}
 
 	public String getCurrentSortField() {
-		return (getMailSession().sortKeyForFolder(getCurrentFolderName()));
+		return (getCurrentFolder().getSortKey());
 	}
 
 	public boolean getCurrentSortReverse() {
-		return (getMailSession().isReverseSortForFolder(getCurrentFolderName()));
+		return (getCurrentFolder().isReverseSort());
 	}
 
 }

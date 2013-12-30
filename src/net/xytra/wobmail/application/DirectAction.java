@@ -13,7 +13,7 @@ import net.xytra.wobmail.components.XWMCompose;
 import net.xytra.wobmail.components.XWMList;
 import net.xytra.wobmail.components.XWMViewMessage;
 import net.xytra.wobmail.export.ExportVisitable;
-import net.xytra.wobmail.mailconn.session.MailSession;
+import net.xytra.wobmail.mailconn.folder.WobmailFolderType;
 import net.xytra.wobmail.misc.MessageRow;
 
 import com.webobjects.appserver.WOActionResults;
@@ -22,6 +22,7 @@ import com.webobjects.appserver.WOMessage;
 import com.webobjects.appserver.WORedirect;
 import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOResponse;
+import com.webobjects.foundation.NSArray;
 
 import er.extensions.eof.ERXConstant;
 import er.extensions.logging.ERXLogger;
@@ -98,10 +99,7 @@ public class DirectAction extends WODirectAction
 
 		// If a valid sorting key was passed, sort accordingly:
 		if ((sortKey != null) && (MessageRow.isSortKeyValid(sortKey))) {
-			session().getMailSession().sortMessageRowsForFolderSortedWithKey(
-					session().getCurrentFolderName(),
-					sortKey,
-					reverseSort);
+			session().getCurrentFolder().sortMessageRowsWithKey(sortKey, reverseSort);
 		}
 
 		// Whether reload needed
@@ -131,11 +129,12 @@ public class DirectAction extends WODirectAction
 			return (listAction());
 		}
 
-		// TODO: Adapt for any folder
-		MessageRow messageRow = session().getMailSession().getMessageRowForFolderByIndex(
-				MailSession.INBOX_FOLDER_NAME, messageIndex);
+		MessageRow messageRow = session().getCurrentFolder()
+				.getMessageRowByIndex(messageIndex);
 
-		session().getMailSession().moveMessageRowToFolder(messageRow, MailSession.TRASH_FOLDER_NAME);
+		session().getCurrentFolder().moveMessageRowsToFolder(
+				new NSArray<MessageRow>(messageRow),
+				WobmailFolderType.TRASH.name());
 
 		// After deletion, return to list:
 		return (listAction());
@@ -161,9 +160,9 @@ public class DirectAction extends WODirectAction
 			return (listAction());
 		}
 
-		// TODO: Adapt for any folder
-		Message message = session().getMailSession().getMessageRowForFolderByIndex(
-				MailSession.INBOX_FOLDER_NAME, messageIndex.intValue()).getMessage();
+		// TODO: Use MessageRow or equivalent instead of Message directly
+		Message message = session().getCurrentFolder()
+				.getMessageRowByIndex(messageIndex.intValue()).getMessage();
 
 		XWMCompose page = (XWMCompose)pageWithName(XWMCompose.class.getName());
 		page.forwardMessage(message, forwardAsAttachment);
@@ -191,9 +190,9 @@ public class DirectAction extends WODirectAction
 			return (listAction());
 		}
 
-		// TODO: Adapt for any folder
-		Message message = session().getMailSession().getMessageRowForFolderByIndex(
-				MailSession.INBOX_FOLDER_NAME, messageIndex.intValue()).getMessage();
+		// TODO: Use MessageRow or equivalent instead of Message directly
+		Message message = session().getCurrentFolder()
+				.getMessageRowByIndex(messageIndex.intValue()).getMessage();
 
 		XWMCompose page = (XWMCompose)pageWithName(XWMCompose.class.getName());
 		page.replyToMessage(message, replyToAll);

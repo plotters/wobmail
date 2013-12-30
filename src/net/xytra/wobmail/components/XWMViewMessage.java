@@ -35,7 +35,7 @@ public class XWMViewMessage extends XWMAbstractPage
 	 * @throws MessagingException
 	 */
 	public boolean showNextMessageLink() throws MessagingException {
-		int numMessagesInFolder = getMailSession().getNumberMessagesInFolder(getMessageFolderName());
+		int numMessagesInFolder = session().getCurrentFolder().getNumberMessages();
 
 		return (getMessageIndex() < numMessagesInFolder-1);
 	}
@@ -55,27 +55,16 @@ public class XWMViewMessage extends XWMAbstractPage
 	 * @return the MessageRow corresponding to the displayed Message.
 	 * @throws MessagingException 
 	 */
-	public MessageRow getMessageRow() throws MessagingException {
+	public MessageRow getMessageRow() {
 		if (messageRow == null) {
 			System.err.println("messageIndex="+messageIndex);
-			messageRow = getMailSession().getMessageRowForFolderByIndex(getMessageFolderName(), getMessageIndex());
+			messageRow = session().getCurrentFolder().getMessageRowByIndex(getMessageIndex());
 
 			// Ensure connection is still open and folder too:
-			getMailSession().keepConnectionOpenForMessage(messageRow.getMessage());
+			getMailSession().keepConnectionOpenForMessage(messageRow);
 		}
 
 		return (messageRow);
-	}
-
-	/**
-	 * @return the folder name of the folder in which to find the message with the index specified earlier.
-	 */
-	protected String getMessageFolderName() {
-		return (session().getCurrentFolderName());
-	}
-
-	public void setMessageFolderName(String newName) {
-		session().setCurrentFolderName(newName);
 	}
 
 	/**

@@ -10,8 +10,8 @@ import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
 
 import net.xytra.wobmail.application.Session;
+import net.xytra.wobmail.mailconn.WobmailException;
 import net.xytra.wobmail.mailconn.manager.Pop3MailSessionManager;
-import net.xytra.wobmail.mailconn.session.MailSessionException;
 import net.xytra.wobmail.util.LocaleUtils;
 
 import com.webobjects.appserver.WOComponent;
@@ -67,7 +67,7 @@ public class Main extends ERXNonSynchronizingComponent
 			errorMessage = getLocalizer().localizedStringForKeyWithDefault(INVALID_USER_PASS_ERROR_KEY);
 			ERXLogger.log.debug(e);
 		} catch (MessagingException me) {
-			throw (new MailSessionException(me));
+			throw (new WobmailException(me));
 		}
 
 		if (errorMessage != null) {
