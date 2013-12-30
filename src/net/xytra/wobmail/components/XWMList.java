@@ -16,8 +16,15 @@ import com.webobjects.foundation.NSArray;
 import com.webobjects.foundation.NSMutableArray;
 import com.webobjects.foundation.NSRange;
 
+import er.extensions.logging.ERXLogger;
+
 public class XWMList extends XWMAbstractPage
 {
+	protected static enum SelectionType {
+		ALL,
+		NONE;
+	}
+
 	public final NSArray<Integer> numberPerPageArray = new NSArray<Integer>(new Integer[] { 2, 5, 10, 25, 50, 100 });
 
 	public int currentMessageIndex;
@@ -70,6 +77,7 @@ public class XWMList extends XWMAbstractPage
 		return (context().page());
 	}
 
+	// Supporting methods
 	public String checkedStringIfCurrentMessageSelected() {
 		return (currentMessageRow.isSelected() ? "checked" : "");
 	}
@@ -89,6 +97,24 @@ public class XWMList extends XWMAbstractPage
 		}
 
 		return (selectedMessageRows);
+	}
+
+	/**
+	 * Set messages as selected as per specified type. 
+	 * @param selectionType ALL or NONE
+	 * @throws MessagingException
+	 */
+	public void setMessagesAsSelected(String selectionType) throws MessagingException {
+		try {
+			setMessageAsSelected(SelectionType.valueOf(selectionType));
+		} catch (IllegalArgumentException e) {
+			// Bad SelectionType name means we can just ignore this selection type
+			ERXLogger.log.debug("Invalid selection type used for list: " + selectionType);
+		}
+	}
+
+	protected void setMessageAsSelected(SelectionType selectionType) throws MessagingException {
+		markAllMessagesAsSelected(selectionType == SelectionType.ALL);
 	}
 
 	protected void markAllMessagesAsSelected(boolean selected) throws MessagingException {

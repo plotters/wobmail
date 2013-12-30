@@ -92,7 +92,7 @@ public class DirectAction extends WODirectAction
 			session().setSelectedNumberPerPage(batchSize.intValue());
 		}
 
-		// -- Sorting
+		// Sorting
 		String sortKey = request().stringFormValueForKey("sort");
 		boolean reverseSort = "1".equals(request().stringFormValueForKey("rs"));
 
@@ -107,8 +107,13 @@ public class DirectAction extends WODirectAction
 		// Whether reload needed
 		boolean shouldReload = "1".equals(request().stringFormValueForKey("rl"));
 
+		// Select all/none
+		String selectionType = request().stringFormValueForKey("select");
+
+		// Create page and set parameters
 		XWMList list = (XWMList)pageWithName(XWMList.class.getName());
 		list.setForceListReload(shouldReload);
+		list.setMessagesAsSelected(selectionType);
 
 		return (list);
 	}

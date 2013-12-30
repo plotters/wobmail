@@ -102,8 +102,9 @@ PreviousPageHyperlink: WOHyperlink {
 }
 
 SelectAllMessagesHyperlink: WOHyperlink {
-	action = selectAllMessagesAction;
+	directActionName = "list";
 	string = session.localizer.XWMList.All;
+	?select = "ALL";
 }
 
 SelectMessageCheckbox: WOGenericElement {
@@ -115,8 +116,9 @@ SelectMessageCheckbox: WOGenericElement {
 }
 
 SelectNoMessagesHyperlink: WOHyperlink {
-	action = selectNoMessagesAction;
+	directActionName = "list";
 	string = session.localizer.XWMList.None;
+	?select = "NONE";
 }
 
 SelectString: XWMLocalizedString {
