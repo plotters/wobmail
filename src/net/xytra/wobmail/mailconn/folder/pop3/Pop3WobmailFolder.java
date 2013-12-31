@@ -198,7 +198,7 @@ public class Pop3WobmailFolder implements WobmailFolder {
 
 	// delete/trash
 	protected void deleteMessage(WobmailMessage message) throws MessagingException {
-		message.setIsDeleted(true);
+		((Pop3WobmailMessage)message).setIsDeleted(true);
 
 		cachedMessageRows.remove(message.getMessageNumber());
 		cachedSortedMessageNumbers.remove(message.getMessageNumber());

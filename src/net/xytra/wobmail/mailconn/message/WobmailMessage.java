@@ -23,8 +23,6 @@ public interface WobmailMessage {
 
 	public String getSubject();
 
-	public void setIsDeleted(boolean value);
-
 	public boolean isSelected();
 
 	public void setIsSelected(boolean value);

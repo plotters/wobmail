@@ -89,7 +89,6 @@ public class Pop3WobmailMessage implements WobmailMessage, NSKeyValueCoding
 		return (isDeleted.booleanValue());
 	}
 
-	@Override
 	public void setIsDeleted(boolean value) {
 		try {
 			message.setFlag(Flag.DELETED, value);
