@@ -11,7 +11,7 @@ import net.xytra.wobmail.mailconn.folder.pop3.Pop3WobmailFolder;
 import com.webobjects.foundation.NSArray;
 
 
-public class Pop3MailSession extends AbstractMailSession
+public class Pop3MailSession extends AbstractWobmailSession
 {
 	private Folder inboxFolder = null;
 

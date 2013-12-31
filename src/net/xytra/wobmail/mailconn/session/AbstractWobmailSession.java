@@ -20,7 +20,7 @@ import com.webobjects.foundation.NSArray;
 
 import er.extensions.logging.ERXLogger;
 
-public abstract class AbstractMailSession implements WobmailSession
+public abstract class AbstractWobmailSession implements WobmailSession
 {
 	private TimerTask closeSessionTask;
 	private Session mailSession;
@@ -30,12 +30,12 @@ public abstract class AbstractMailSession implements WobmailSession
 	private String username;
 	private String password;
 
-	public AbstractMailSession(String username, String password)
+	public AbstractWobmailSession(String username, String password)
 	{
 		this.username = username;
 		this.password = password;
 
-		this.sessionTimer = new Timer("AbstractMailSession Timer");
+		this.sessionTimer = new Timer("AbstractWobmailSession Timer");
 	}
 
 	// Connection
