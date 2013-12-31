@@ -14,7 +14,8 @@ import net.xytra.wobmail.components.XWMList;
 import net.xytra.wobmail.components.XWMViewMessage;
 import net.xytra.wobmail.export.ExportVisitable;
 import net.xytra.wobmail.mailconn.folder.WobmailFolderType;
-import net.xytra.wobmail.misc.MessageRow;
+import net.xytra.wobmail.mailconn.message.WobmailMessage;
+import net.xytra.wobmail.mailconn.message.WobmailMessageUtils;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WODirectAction;
@@ -98,8 +99,8 @@ public class DirectAction extends WODirectAction
 		boolean reverseSort = "1".equals(request().stringFormValueForKey("rs"));
 
 		// If a valid sorting key was passed, sort accordingly:
-		if ((sortKey != null) && (MessageRow.isSortKeyValid(sortKey))) {
-			session().getCurrentFolder().sortMessageRowsWithKey(sortKey, reverseSort);
+		if ((sortKey != null) && (WobmailMessageUtils.isSortKeyValid(sortKey))) {
+			session().getCurrentFolder().sortMessagesWithKey(sortKey, reverseSort);
 		}
 
 		// Whether reload needed
@@ -129,11 +130,11 @@ public class DirectAction extends WODirectAction
 			return (listAction());
 		}
 
-		MessageRow messageRow = session().getCurrentFolder()
-				.getMessageRowByIndex(messageIndex);
+		WobmailMessage message = session().getCurrentFolder()
+				.getMessageByIndex(messageIndex);
 
-		session().getCurrentFolder().moveMessageRowsToFolder(
-				new NSArray<MessageRow>(messageRow),
+		session().getCurrentFolder().moveMessagesToFolder(
+				new NSArray<WobmailMessage>(message),
 				WobmailFolderType.TRASH.name());
 
 		// After deletion, return to list:
@@ -162,7 +163,7 @@ public class DirectAction extends WODirectAction
 
 		// TODO: Use MessageRow or equivalent instead of Message directly
 		Message message = session().getCurrentFolder()
-				.getMessageRowByIndex(messageIndex.intValue()).getMessage();
+				.getMessageByIndex(messageIndex.intValue()).getMessage();
 
 		XWMCompose page = (XWMCompose)pageWithName(XWMCompose.class.getName());
 		page.forwardMessage(message, forwardAsAttachment);
@@ -192,7 +193,7 @@ public class DirectAction extends WODirectAction
 
 		// TODO: Use MessageRow or equivalent instead of Message directly
 		Message message = session().getCurrentFolder()
-				.getMessageRowByIndex(messageIndex.intValue()).getMessage();
+				.getMessageByIndex(messageIndex.intValue()).getMessage();
 
 		XWMCompose page = (XWMCompose)pageWithName(XWMCompose.class.getName());
 		page.replyToMessage(message, replyToAll);

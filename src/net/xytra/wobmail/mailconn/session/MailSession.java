@@ -4,7 +4,7 @@ import javax.mail.Folder;
 import javax.mail.internet.MimeMessage;
 
 import net.xytra.wobmail.mailconn.folder.WobmailFolder;
-import net.xytra.wobmail.misc.MessageRow;
+import net.xytra.wobmail.mailconn.message.WobmailMessage;
 
 public interface MailSession {
 
@@ -19,9 +19,9 @@ public interface MailSession {
 
 	/**
 	 * Ensures the connection to the mail Store is kept open or reopened for the subsequent query of the message specified. 
-	 * @param messageRow
+	 * @param message
 	 */
-	public void keepConnectionOpenForMessage(MessageRow messageRow);
+	public void keepConnectionOpenForMessage(WobmailMessage message);
 
 	/**
 	 * @return a new, empty, Mime message.

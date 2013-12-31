@@ -9,7 +9,7 @@ import javax.mail.internet.MimeMessage;
 
 import net.xytra.wobmail.application.Session;
 import net.xytra.wobmail.export.ExportVisitor;
-import net.xytra.wobmail.misc.MessageRow;
+import net.xytra.wobmail.mailconn.message.WobmailMessage;
 import net.xytra.wobmail.util.XWMUtils;
 
 import com.webobjects.appserver.WOContext;
@@ -21,7 +21,7 @@ import er.extensions.eof.ERXConstant;
 public class XWMViewMessage extends XWMAbstractPage
 {
 	private Integer messageIndex;
-	private MessageRow messageRow;
+	private WobmailMessage message;
 
 	public XWMViewMessage(WOContext context)
 	{
@@ -55,16 +55,16 @@ public class XWMViewMessage extends XWMAbstractPage
 	 * @return the MessageRow corresponding to the displayed Message.
 	 * @throws MessagingException 
 	 */
-	public MessageRow getMessageRow() {
-		if (messageRow == null) {
+	public WobmailMessage getMessageRow() {
+		if (message == null) {
 			System.err.println("messageIndex="+messageIndex);
-			messageRow = session().getCurrentFolder().getMessageRowByIndex(getMessageIndex());
+			message = session().getCurrentFolder().getMessageByIndex(getMessageIndex());
 
 			// Ensure connection is still open and folder too:
-			getMailSession().keepConnectionOpenForMessage(messageRow);
+			getMailSession().keepConnectionOpenForMessage(message);
 		}
 
-		return (messageRow);
+		return (message);
 	}
 
 	/**

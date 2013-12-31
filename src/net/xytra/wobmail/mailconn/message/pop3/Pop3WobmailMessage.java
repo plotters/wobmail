@@ -1,21 +1,19 @@
-package net.xytra.wobmail.misc;
+package net.xytra.wobmail.mailconn.message.pop3;
 
 import java.util.Date;
 
+import javax.mail.Flags.Flag;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Flags.Flag;
 
+import net.xytra.wobmail.mailconn.WobmailException;
+import net.xytra.wobmail.mailconn.message.WobmailMessage;
 import net.xytra.wobmail.util.XWMUtils;
 
 import com.webobjects.foundation.NSKeyValueCoding;
 
-public class MessageRow implements NSKeyValueCoding
+public class Pop3WobmailMessage implements WobmailMessage, NSKeyValueCoding
 {
-	public static final String DATE_SENT_SORT_FIELD = "dateSent";
-	public static final String SENDER_SORT_FIELD = "sender"; 
-	public static final String SUBJECT_SORT_FIELD = "subject";
-
 	private Message message;
 
 	private Date dateSent;
@@ -26,22 +24,29 @@ public class MessageRow implements NSKeyValueCoding
 
 	private boolean isSelected = false;
 
-	public MessageRow(Message message) {
+	public Pop3WobmailMessage(Message message) {
 		this.message = message;
 	}
 
-	public Date getDateSent() throws MessagingException {
+	@Override
+	public Date getDateSent() {
 		if (dateSent == null) {
-			dateSent = message.getSentDate();
+			try {
+				dateSent = message.getSentDate();
+			} catch (MessagingException e) {
+				throw (new WobmailException(e));
+			}
 		}
 
 		return (dateSent);
 	}
 
+	@Override
 	public Message getMessage() {
 		return (message);
 	}
 
+	@Override
 	public int getMessageNumber() {
 		if (messageNumber == null) {
 			messageNumber = Integer.valueOf(message.getMessageNumber());
@@ -50,17 +55,27 @@ public class MessageRow implements NSKeyValueCoding
 		return (messageNumber.intValue());
 	}
 
-	public String getSender() throws MessagingException {
+	@Override
+	public String getSender() {
 		if (sender == null) {
-			sender = XWMUtils.fromAddressesAsStringForMessage(message);
+			try {
+				sender = XWMUtils.fromAddressesAsStringForMessage(message);
+			} catch (MessagingException e) {
+				throw (new WobmailException(e));
+			}
 		}
 
 		return (sender);
 	}
 
-	public String getSubject() throws MessagingException {
+	@Override
+	public String getSubject() {
 		if (subject == null) {
-			subject = message.getSubject();
+			try {
+				subject = message.getSubject();
+			} catch (MessagingException e) {
+				throw (new WobmailException(e));
+			}
 		}
 
 		return (subject);
@@ -74,31 +89,26 @@ public class MessageRow implements NSKeyValueCoding
 		return (isDeleted.booleanValue());
 	}
 
-	public void setIsDeleted(boolean value) throws MessagingException {
-		message.setFlag(Flag.DELETED, value);
+	@Override
+	public void setIsDeleted(boolean value) {
+		try {
+			message.setFlag(Flag.DELETED, value);
+		} catch (MessagingException e) {
+			throw (new WobmailException(e));
+		}
 
 		// Update the cached version
 		isDeleted = Boolean.valueOf(value);
 	}
 
+	@Override
 	public boolean isSelected() {
 		return (isSelected);
 	}
 
+	@Override
 	public void setIsSelected(boolean value) {
 		isSelected = value;
-	}
-
-	// Static utility
-	/**
-	 * @param key The key to test.
-	 * @return true if <code>key</code> is one of the valid sorting keys
-	 */
-	public static boolean isSortKeyValid(String key) {
-		return ((key != null) &&
-				(DATE_SENT_SORT_FIELD.equals(key) ||
-				 SENDER_SORT_FIELD.equals(key) ||
-				 SUBJECT_SORT_FIELD.equals(key)));
 	}
 
 	// NSKeyValueCoding stuff

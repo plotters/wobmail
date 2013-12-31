@@ -8,7 +8,7 @@ import javax.mail.MessagingException;
 import net.xytra.wobmail.application.Application;
 import net.xytra.wobmail.mailconn.folder.WobmailFolder;
 import net.xytra.wobmail.mailconn.folder.WobmailFolderType;
-import net.xytra.wobmail.misc.MessageRow;
+import net.xytra.wobmail.mailconn.message.WobmailMessage;
 
 import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
@@ -29,10 +29,10 @@ public class XWMList extends XWMAbstractPage
 	public final NSArray<Integer> numberPerPageArray = new NSArray<Integer>(new Integer[] { 2, 5, 10, 25, 50, 100 });
 
 	public int currentMessageIndex;
-	public MessageRow currentMessageRow;
+	public WobmailMessage currentMessage;
 
-	private NSArray<MessageRow> availableMessages = null;
-	private NSArray<MessageRow> messageArrayForCurrentFolder = null;
+	private NSArray<WobmailMessage> availableMessages = null;
+	private NSArray<WobmailMessage> messageArrayForCurrentFolder = null;
 
 	private boolean forceListReload = false;
 
@@ -49,9 +49,9 @@ public class XWMList extends XWMAbstractPage
 	public WOComponent moveToTrashSelectedMessagesAction() throws MessagingException
 	{
 		// Mark selected messages as deleted and return to List
-		NSArray<MessageRow> selectedMessageRows = getSelectedMessageRows();
+		NSArray<WobmailMessage> selectedMessageRows = getSelectedMessageRows();
 		if (selectedMessageRows.size() > 0) {
-			getActiveFolder().moveMessageRowsToFolder(
+			getActiveFolder().moveMessagesToFolder(
 					selectedMessageRows, WobmailFolderType.TRASH.name());
 
 			// Reset cached arrays
@@ -80,20 +80,20 @@ public class XWMList extends XWMAbstractPage
 
 	// Supporting methods
 	public String checkedStringIfCurrentMessageSelected() {
-		return (currentMessageRow.isSelected() ? "checked" : "");
+		return (currentMessage.isSelected() ? "checked" : "");
 	}
 
-	protected NSArray<MessageRow> getSelectedMessageRows() throws MessagingException {
-		NSMutableArray<MessageRow> selectedMessageRows = new NSMutableArray<MessageRow>();
+	protected NSArray<WobmailMessage> getSelectedMessageRows() throws MessagingException {
+		NSMutableArray<WobmailMessage> selectedMessageRows = new NSMutableArray<WobmailMessage>();
 		
 		// For each message in folder, add to array if marked as selected
-		Enumeration<MessageRow> en1 = messageArrayForCurrentFolder().objectEnumerator();
+		Enumeration<WobmailMessage> en1 = messageArrayForCurrentFolder().objectEnumerator();
 
 		while (en1.hasMoreElements()) {
-			MessageRow mr = en1.nextElement();
+			WobmailMessage message = en1.nextElement();
 
-			if (mr.isSelected()) {
-				selectedMessageRows.addObject(mr);
+			if (message.isSelected()) {
+				selectedMessageRows.addObject(message);
 			}
 		}
 
@@ -127,7 +127,7 @@ public class XWMList extends XWMAbstractPage
 
 	protected void markAllMessagesAsSelected(boolean selected) throws MessagingException {
 		// Set all messages listed on page as selected or not
-		Enumeration<MessageRow> en1 = getAvailableMessages().objectEnumerator();
+		Enumeration<WobmailMessage> en1 = getAvailableMessages().objectEnumerator();
 
 		while (en1.hasMoreElements()) {
 			en1.nextElement().setIsSelected(selected);
@@ -141,7 +141,7 @@ public class XWMList extends XWMAbstractPage
 	}
 
 	// Data
-	public NSArray<MessageRow> getAvailableMessages() throws MessagingException
+	public NSArray<WobmailMessage> getAvailableMessages() throws MessagingException
 	{
 		if (availableMessages == null) {
 			availableMessages = messageSubarrayForCurrentFolder(currentStartIndex(), currentEndIndex());
@@ -154,7 +154,7 @@ public class XWMList extends XWMAbstractPage
 	 * @return the array representing the full list of messages in this folder.
 	 * @throws MessagingException
 	 */
-	protected NSArray<MessageRow> messageArrayForCurrentFolder() throws MessagingException {
+	protected NSArray<WobmailMessage> messageArrayForCurrentFolder() throws MessagingException {
 		if (messageArrayForCurrentFolder == null) {
 			messageArrayForCurrentFolder = getActiveFolder().getMessages(getForceListReload());
 		}
@@ -162,7 +162,7 @@ public class XWMList extends XWMAbstractPage
 		return (messageArrayForCurrentFolder);
 	}
 
-	protected NSArray<MessageRow> messageSubarrayForCurrentFolder(int startIndex, int endIndex) throws MessagingException {
+	protected NSArray<WobmailMessage> messageSubarrayForCurrentFolder(int startIndex, int endIndex) throws MessagingException {
 		return (messageArrayForCurrentFolder().subarrayWithRange(new NSRange(startIndex, endIndex-startIndex)));
 	}
 
@@ -184,7 +184,7 @@ public class XWMList extends XWMAbstractPage
 
 	// Sorting
 	public String sortKeyForDateSent() {
-		return (MessageRow.DATE_SENT_SORT_FIELD);
+		return (WobmailMessage.DATE_SENT_SORT_FIELD);
 	}
 
 	public int reverseNextSortForDateSentAsInt() {
@@ -192,7 +192,7 @@ public class XWMList extends XWMAbstractPage
 	}
 
 	public String sortKeyForSender() {
-		return (MessageRow.SENDER_SORT_FIELD);
+		return (WobmailMessage.SENDER_SORT_FIELD);
 	}
 
 	public int reverseNextSortForSenderAsInt() {
@@ -200,7 +200,7 @@ public class XWMList extends XWMAbstractPage
 	}
 
 	public String sortKeyForSubject() {
-		return (MessageRow.SUBJECT_SORT_FIELD);
+		return (WobmailMessage.SUBJECT_SORT_FIELD);
 	}
 
 	public int reverseNextSortForSubjectAsInt() {
@@ -272,7 +272,7 @@ public class XWMList extends XWMAbstractPage
 	}
 
 	public String presentableDateSent() throws MessagingException {
-		return (session().localizedDateTimeFormat().format(currentMessageRow.getDateSent()));
+		return (session().localizedDateTimeFormat().format(currentMessage.getDateSent()));
 	}
 
 	// Page indices
@@ -309,11 +309,11 @@ public class XWMList extends XWMAbstractPage
 
 	// Check boxes
 	public boolean currentMessageChecked() {
-		return (currentMessageRow.isSelected());
+		return (currentMessage.isSelected());
 	}
 
 	public void setCurrentMessageChecked(boolean value) {
-		currentMessageRow.setIsSelected(value);
+		currentMessage.setIsSelected(value);
 	}
 
 	/**

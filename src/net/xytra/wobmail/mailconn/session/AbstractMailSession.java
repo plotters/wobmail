@@ -14,7 +14,7 @@ import javax.mail.internet.MimeMessage;
 
 import net.xytra.wobmail.application.Application;
 import net.xytra.wobmail.mailconn.WobmailException;
-import net.xytra.wobmail.misc.MessageRow;
+import net.xytra.wobmail.mailconn.message.WobmailMessage;
 
 import com.webobjects.foundation.NSArray;
 
@@ -62,12 +62,13 @@ public abstract class AbstractMailSession implements MailSession
 		return (isConnectionToStoreOpen);
 	}
 
-	public void keepConnectionOpenForMessage(MessageRow messageRow) {
+	@Override
+	public void keepConnectionOpenForMessage(WobmailMessage message) {
 		try {
 			if (keepConnectionOpen(false)) {
-				obtainOpenFolder(messageRow.getMessage().getFolder());
+				obtainOpenFolder(message.getMessage().getFolder());
 			} else {
-				throw (new WobmailException("Could not get folder open: " + messageRow.getMessage().getFolder()));
+				throw (new WobmailException("Could not get folder open: " + message.getMessage().getFolder()));
 			}
 		} catch (MessagingException e) {
 			throw (new WobmailException(e));

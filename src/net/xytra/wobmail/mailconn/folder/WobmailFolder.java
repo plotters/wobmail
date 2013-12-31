@@ -1,6 +1,6 @@
 package net.xytra.wobmail.mailconn.folder;
 
-import net.xytra.wobmail.misc.MessageRow;
+import net.xytra.wobmail.mailconn.message.WobmailMessage;
 
 import com.webobjects.foundation.NSArray;
 
@@ -9,18 +9,22 @@ import com.webobjects.foundation.NSArray;
  *
  */
 public interface WobmailFolder {
+	/**
+	 * @param index
+	 * @return message for the specified index.
+	 */
+	public WobmailMessage getMessageByIndex(int index);
 
-	public MessageRow getMessageRowByIndex(int index);
 	/**
 	 * @return an <code>NSArray</code> of <code>WobmailMessage</code>s representing the messages in this folder.
 	 */
-	public NSArray<MessageRow> getMessages();
+	public NSArray<WobmailMessage> getMessages();
 
 	/**
 	 * @param reloadMessageList whether to force a reload of the message list by querying the mail server
 	 * @return an <code>NSArray</code> of <code>WobmailMessage</code>s representing the messages in this folder.
 	 */
-	public NSArray<MessageRow> getMessages(boolean reloadMessageList);
+	public NSArray<WobmailMessage> getMessages(boolean reloadMessageList);
 
 	/**
 	 * @return this folder's name.
@@ -48,7 +52,7 @@ public interface WobmailFolder {
 	 * @param messageRows
 	 * @param folderName
 	 */
-	public void moveMessageRowsToFolder(NSArray<MessageRow> messageRows, String folderName);
+	public void moveMessagesToFolder(NSArray<WobmailMessage> messageRows, String folderName);
 
 	/**
 	 * Sort this folder's message list and return the newly sorted list.
@@ -58,6 +62,6 @@ public interface WobmailFolder {
 	 * @param sortKey Key representing which message property by which to sort.
 	 * @param reverseSort Whether to reverse sort.
 	 */
-	public void sortMessageRowsWithKey(String sortKey, boolean reverseSort);
+	public void sortMessagesWithKey(String sortKey, boolean reverseSort);
 
 }

@@ -52,7 +52,7 @@ ListRowGeneric: WOGenericContainer {
 
 MessageRepetition: WORepetition {
 	index = currentMessageIndex;
-	item = currentMessageRow;
+	item = currentMessage;
 	list = availableMessages;
 }
 
@@ -62,7 +62,7 @@ MessagesPerPageString: XWMLocalizedString {
 
 MessageSubjectHyperlink: WOHyperlink {
 	directActionName = "viewMessage";
-	string = currentMessageRow.subject;
+	string = currentMessage.subject;
 	?mi = currentMessageIndexInFullArray;
 }
 
@@ -132,7 +132,7 @@ SenderHeaderHyperlink: WOHyperlink {
 }
 
 SenderString: WOString {
-	value = currentMessageRow.sender;
+	value = currentMessage.sender;
 }
 
 ShowFirstPreviousConditional: WOConditional {

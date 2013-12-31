@@ -63,5 +63,4 @@ public class Pop3MailSession extends AbstractMailSession
 		}
 	}
 
-	// Messages
 }

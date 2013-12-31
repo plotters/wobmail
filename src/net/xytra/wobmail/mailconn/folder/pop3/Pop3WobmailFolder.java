@@ -8,8 +8,9 @@ import javax.mail.MessagingException;
 import net.xytra.wobmail.mailconn.WobmailException;
 import net.xytra.wobmail.mailconn.folder.WobmailFolder;
 import net.xytra.wobmail.mailconn.folder.WobmailFolderType;
+import net.xytra.wobmail.mailconn.message.WobmailMessage;
+import net.xytra.wobmail.mailconn.message.pop3.Pop3WobmailMessage;
 import net.xytra.wobmail.mailconn.session.MailSession;
-import net.xytra.wobmail.misc.MessageRow;
 
 import com.webobjects.eocontrol.EOSortOrdering;
 import com.webobjects.foundation.NSArray;
@@ -30,9 +31,9 @@ public class Pop3WobmailFolder implements WobmailFolder {
 	private final String folderName;
 
 	// Folder contents cached
-	private NSDictionary<Integer, MessageRow> cachedInboxMessageRows = null;
-	private NSArray<Integer> cachedSortedxMessageNumbers = null;
-	private NSArray<MessageRow> cachedSortedMessageRows = null;
+	private NSDictionary<Integer, WobmailMessage> cachedMessageRows = null;
+	private NSArray<Integer> cachedSortedMessageNumbers = null;
+	private NSArray<WobmailMessage> cachedSortedMessageRows = null;
 
 	public Pop3WobmailFolder(MailSession mailSession, String folderName) {
 		this.mailSession = mailSession;
@@ -40,35 +41,35 @@ public class Pop3WobmailFolder implements WobmailFolder {
 	}
 
 	@Override
-	public MessageRow getMessageRowByIndex(int index) {
+	public WobmailMessage getMessageByIndex(int index) {
 		return (getMessages().objectAtIndex(index));
 	}
 
 	@Override
-	public NSArray<MessageRow> getMessages() {
+	public NSArray<WobmailMessage> getMessages() {
 		return (getMessages(false));
 	}
 
 	@Override
-	public NSArray<MessageRow> getMessages(boolean reloadMessageList) {
+	public NSArray<WobmailMessage> getMessages(boolean reloadMessageList) {
 		// forceReload == true means that we have to invalidate the message numbers and rows
 		if (reloadMessageList) {
-			cachedSortedxMessageNumbers = null;
+			cachedSortedMessageNumbers = null;
 			cachedSortedMessageRows = null;
 		}
 
-		if ((cachedSortedxMessageNumbers == null) || (cachedSortedMessageRows == null)) {
-			NSDictionary<Integer, MessageRow> messageRowsDictionary = getMessageRowDictionary(reloadMessageList);
+		if ((cachedSortedMessageNumbers == null) || (cachedSortedMessageRows == null)) {
+			NSDictionary<Integer, WobmailMessage> messageRowsDictionary = getMessageRowDictionary(reloadMessageList);
 
-			if (cachedSortedxMessageNumbers == null) {
-				cachedSortedxMessageNumbers = getMessageNumbersSorted(messageRowsDictionary);
+			if (cachedSortedMessageNumbers == null) {
+				cachedSortedMessageNumbers = getMessageNumbersSorted(messageRowsDictionary);
 	
 				// Invalidate cached inbox rows
 				cachedSortedMessageRows = null;
 			}
 
 			if (cachedSortedMessageRows == null) {
-				cachedSortedMessageRows = getOrderedMessageRows(messageRowsDictionary, cachedSortedxMessageNumbers);
+				cachedSortedMessageRows = getOrderedMessageRows(messageRowsDictionary, cachedSortedMessageNumbers);
 			}
 		}
 
@@ -86,7 +87,7 @@ public class Pop3WobmailFolder implements WobmailFolder {
 		return (getMessages().count());
 	}
 
-	public void moveMessageRowsToFolder(NSArray<MessageRow> messageRows, String folderName) {
+	public void moveMessagesToFolder(NSArray<WobmailMessage> messageRows, String folderName) {
 		if (!WobmailFolderType.TRASH.name().equals(folderName)) {
 			throw (new WobmailException("Can only move to Trash in POP3.  Not allowed to use folderName="+folderName));
 		}
@@ -106,7 +107,7 @@ public class Pop3WobmailFolder implements WobmailFolder {
 	 * @param sortKey Key representing which message property by which to sort.
 	 * @param reverseSort Whether to reverse sort.
 	 */
-	public void sortMessageRowsWithKey(String sortKey, boolean reverseSort) {
+	public void sortMessagesWithKey(String sortKey, boolean reverseSort) {
 		String currentSortKey = getSortKey();
 		boolean currentReverseSort = isReverseSort();
 
@@ -116,19 +117,19 @@ public class Pop3WobmailFolder implements WobmailFolder {
 
 		if (!currentSortKey.equals(sortKey)) {
 			// Sort key has changed, just invalidate cache
-			cachedSortedxMessageNumbers = null;
+			cachedSortedMessageNumbers = null;
 			cachedSortedMessageRows = null;
 		} else if (reverseSort != currentReverseSort) {
 			// Sort key hasn't changed; only reverse the order:
-			cachedSortedxMessageNumbers = ERXArrayUtilities.reverse(cachedSortedxMessageNumbers);
+			cachedSortedMessageNumbers = ERXArrayUtilities.reverse(cachedSortedMessageNumbers);
 			cachedSortedMessageRows = ERXArrayUtilities.reverse(cachedSortedMessageRows);
 		}
 	}
 
 	//=========================================================================
 	// Supporting utility methods
-	protected NSArray<MessageRow> getFreshUnsortedMessageRows() {
-		NSArray<MessageRow> unsortedMessageRows;
+	protected NSArray<WobmailMessage> getFreshUnsortedMessages() {
+		NSArray<WobmailMessage> unsortedMessageRows;
 
 		// Only allow one such access at a time through this session
 		synchronized (this) {
@@ -140,11 +141,11 @@ public class Pop3WobmailFolder implements WobmailFolder {
 				throw (new WobmailException(e));
 			}
 
-			NSMutableArray<MessageRow> messageRowsArray = new NSMutableArray<MessageRow>();
+			NSMutableArray<WobmailMessage> messageRowsArray = new NSMutableArray<WobmailMessage>();
 
 			// Let's get each message in a wrapper and keep it all for future use:
 			for (int i=0; i<messages.length; i++) {
-				messageRowsArray.addObject(new MessageRow(messages[i]));
+				messageRowsArray.addObject(new Pop3WobmailMessage(messages[i]));
 			}
 			
 			unsortedMessageRows = messageRowsArray.immutableClone();
@@ -153,30 +154,30 @@ public class Pop3WobmailFolder implements WobmailFolder {
 		return (unsortedMessageRows);
 	}
 
-	protected NSArray<Integer> getMessageNumbersSorted(NSDictionary<Integer, MessageRow> messageRows) {
+	protected NSArray<Integer> getMessageNumbersSorted(NSDictionary<Integer, WobmailMessage> messages) {
 		return ((NSArray<Integer>)ERXArrayUtilities.sortedArraySortedWithKey(
-				messageRows.allValues(),
+				messages.allValues(),
 				getSortKey(),
 				isReverseSort() ?
 						EOSortOrdering.CompareCaseInsensitiveDescending :
 						EOSortOrdering.CompareCaseInsensitiveAscending).valueForKey("messageNumber"));
 	}
 
-	protected NSDictionary<Integer, MessageRow> getMessageRowDictionary(boolean forceReload) {
-		if (forceReload || (cachedInboxMessageRows == null)) {
-			NSMutableDictionary<Integer, MessageRow> newMessageRowDict = new NSMutableDictionary<Integer, MessageRow>();
+	protected NSDictionary<Integer, WobmailMessage> getMessageRowDictionary(boolean forceReload) {
+		if (forceReload || (cachedMessageRows == null)) {
+			NSMutableDictionary<Integer, WobmailMessage> newMessageRowDict = new NSMutableDictionary<Integer, WobmailMessage>();
 
-			Enumeration<MessageRow> en1 = getFreshUnsortedMessageRows().objectEnumerator();
+			Enumeration<WobmailMessage> en1 = getFreshUnsortedMessages().objectEnumerator();
 			while (en1.hasMoreElements()) {
-				MessageRow mr = en1.nextElement();
-				newMessageRowDict.setObjectForKey(mr, mr.getMessageNumber());
+				WobmailMessage message = en1.nextElement();
+				newMessageRowDict.setObjectForKey(message, message.getMessageNumber());
 			}
 
 			// Save our new dictionary and set the return value
-			cachedInboxMessageRows = newMessageRowDict;
+			cachedMessageRows = newMessageRowDict;
 		}
 
-		return (cachedInboxMessageRows);
+		return (cachedMessageRows);
 	}
 
 	/**
@@ -184,8 +185,8 @@ public class Pop3WobmailFolder implements WobmailFolder {
 	 * @param messageNumbers the <code>NSArray</code> of the desired order. 
 	 * @return an <code>NSArray</code> of <code>MessageRow</code>s provided in messageRows but in the order specified in messageNumbers.
 	 */
-	protected NSArray<MessageRow> getOrderedMessageRows(NSDictionary<Integer, MessageRow> messageRows, NSArray<Integer> messageNumbers) {
-		NSMutableArray<MessageRow> orderedMessageRows = new NSMutableArray<MessageRow>();
+	protected NSArray<WobmailMessage> getOrderedMessageRows(NSDictionary<Integer, WobmailMessage> messageRows, NSArray<Integer> messageNumbers) {
+		NSMutableArray<WobmailMessage> orderedMessageRows = new NSMutableArray<WobmailMessage>();
 
 		Enumeration<Integer> en1 = messageNumbers.objectEnumerator();
 		while (en1.hasMoreElements()) {
@@ -196,30 +197,31 @@ public class Pop3WobmailFolder implements WobmailFolder {
 	}
 
 	// delete/trash
-	protected void deleteMessageRow(MessageRow messageRow) throws MessagingException {
-		messageRow.setIsDeleted(true);
+	protected void deleteMessage(WobmailMessage message) throws MessagingException {
+		message.setIsDeleted(true);
 
-		cachedInboxMessageRows.remove(messageRow.getMessageNumber());
-		cachedSortedxMessageNumbers.remove(messageRow.getMessageNumber());
-		cachedSortedMessageRows.remove(messageRow);
+		cachedMessageRows.remove(message.getMessageNumber());
+		cachedSortedMessageNumbers.remove(message.getMessageNumber());
+		cachedSortedMessageRows.remove(message);
 	}
 
-	synchronized protected void deleteMessageRows(NSArray<MessageRow> messageRows) throws MessagingException {
-		Enumeration<MessageRow> en1 = messageRows.objectEnumerator();
+	synchronized protected void deleteMessages(NSArray<WobmailMessage> messageRows) throws MessagingException {
+		Enumeration<WobmailMessage> en1 = messageRows.objectEnumerator();
 		
 		while (en1.hasMoreElements()) {
-			deleteMessageRow(en1.nextElement());
+			deleteMessage(en1.nextElement());
 		}
 	}
 
-	protected void moveMessageRowsToTrash(NSArray<MessageRow> messageRows) throws MessagingException {
-		deleteMessageRows(messageRows);
+	protected void moveMessageRowsToTrash(NSArray<WobmailMessage> messageRows) throws MessagingException {
+		deleteMessages(messageRows);
 	}
 
 	// Sorting and reverse
-	private String sortKey = MessageRow.DATE_SENT_SORT_FIELD;
+	private String sortKey = WobmailMessage.DATE_SENT_SORT_FIELD;
 	private boolean isReverseSort = false;
 
+	@Override
 	public String getSortKey() {
 		return (sortKey);
 	}
@@ -228,6 +230,7 @@ public class Pop3WobmailFolder implements WobmailFolder {
 		this.sortKey = sortKey;
 	}
 
+	@Override
 	public boolean isReverseSort() {
 		return (isReverseSort);
 	}
