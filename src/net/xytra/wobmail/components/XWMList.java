@@ -135,9 +135,19 @@ public class XWMList extends XWMAbstractPage
 	}
 
 	// Folders
+	public WobmailFolder currentFolder;
+
+	public NSArray<WobmailFolder> getAvailableFolders() {
+		return (session().getMailSession().getFolders());
+	}
+
 	// TODO: this most certainly has to be improved
-	protected WobmailFolder getActiveFolder() {
+	public WobmailFolder getActiveFolder() {
 		return (session().getCurrentFolder());
+	}
+
+	public boolean isCurrentFolderActive() {
+		return (currentFolder.equals(getActiveFolder()));
 	}
 
 	// Data
@@ -210,14 +220,6 @@ public class XWMList extends XWMAbstractPage
 	protected int reverseNextSortForKeyAsInt(String sortKey) {
 		return (!session().getCurrentSortReverse() &&
 				sortKey.equals(session().getCurrentSortField()) ? 1 : 0);
-	}
-
-	/**
-	 * @return current folder name or localized version of "Inbox" if current folder is "INBOX".
-	 */
-	public String currentFolderName() {
-		// TODO: localize
-		return (getActiveFolder().getName());
 	}
 
 	public boolean showFirstAndPreviousLinks() {

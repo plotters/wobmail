@@ -15,6 +15,10 @@ DateSentString: WOString {
 	value = presentableDateSent;
 }
 
+DeleteMessagesForm: WOForm {
+	multipleSubmit = true;
+}
+
 DeleteSelectedMessagesButton: WOSubmitButton {
 	action = moveToTrashSelectedMessagesAction;
 	class = "XWMsubmitButton";
@@ -35,8 +39,28 @@ FirstPageHyperlink : WOHyperlink {
 	?page = 0;
 }
 
-Form: WOForm {
-	multipleSubmit = true;
+FolderActiveConditional : WOConditional {
+	condition = isCurrentFolderActive;
+}
+
+FolderInactiveConditional : WOConditional {
+	condition = isCurrentFolderActive;
+	negate = true;
+}
+
+FolderNameHyperlink : WOHyperlink {
+	directActionName = "list";
+	string = currentFolder.name;
+	?folder = currentFolder.name;
+}
+
+FolderNameString : WOString {
+	value = currentFolder.name;
+}
+
+FolderRepetition : WORepetition {
+	item = currentFolder;
+	list = availableFolders;
 }
 
 LastPageHyperlink : WOHyperlink {
@@ -91,7 +115,7 @@ OfString: XWMLocalizedString {
 
 PageWrapper: WOSwitchComponent {
 	WOComponentName = pageWrapperName;
-	pageTitle = currentFolderName;
+	pageTitle = activeFolder.name;
 }
 
 PreviousPageHyperlink: WOHyperlink {

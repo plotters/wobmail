@@ -12,6 +12,7 @@ import net.xytra.wobmail.mailconn.manager.Pop3WobmailSessionManager;
 import net.xytra.wobmail.mailconn.session.AbstractWobmailSession;
 
 import com.webobjects.foundation.NSArray;
+import com.webobjects.foundation.NSMutableArray;
 
 
 public class Pop3WobmailSession extends AbstractWobmailSession
@@ -35,6 +36,30 @@ public class Pop3WobmailSession extends AbstractWobmailSession
 	}
 
 	// Folders
+	private NSArray<WobmailFolder> folders;
+
+	@Override
+	public NSArray<WobmailFolder> getFolders() {
+		if (folders == null) {
+			NSMutableArray<WobmailFolder> newFolders = new NSMutableArray<WobmailFolder>();
+
+			try {
+				Folder rootFolder = getOpenStore().getDefaultFolder();
+				Folder[] topFolders = rootFolder.list();
+				for (int i=0; i<topFolders.length; i++) {
+					newFolders.addObject(new Pop3WobmailFolder(this, topFolders[i].getName()));
+				}
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			folders = newFolders.immutableClone();
+		}
+
+		return folders;
+	}
+
 	public WobmailFolder getInboxFolder() {
 		return (new Pop3WobmailFolder(this, WobmailFolderType.INBOX.name()));
 	}

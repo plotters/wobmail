@@ -80,9 +80,15 @@ public class DirectAction extends WODirectAction
     }
 
 	public WOActionResults listAction() throws MessagingException {
-    	if (!hasSession()) {
-    		return (redirectToDefaultAction());
-    	}
+		if (!hasSession()) {
+			return (redirectToDefaultAction());
+		}
+
+		// Folder
+		// TODO: Allow folder selection change using this below:
+//		String folderName = request().stringFormValueForKey("folder");
+//		WobmailFolder folder = session().getMailSession().getFolderWithName(folderName);
+//		session().setCurrentFolder(folder);
 
 		// Page number
 		int pageNumber = integerForFormValueForKeyWithDefault("page", 0);
@@ -161,7 +167,7 @@ public class DirectAction extends WODirectAction
 			return (listAction());
 		}
 
-		// TODO: Use MessageRow or equivalent instead of Message directly
+		// TODO: Use WobmailMessage or equivalent instead of Message directly
 		Message message = session().getCurrentFolder()
 				.getMessageByIndex(messageIndex.intValue()).getMessage();
 
@@ -191,7 +197,7 @@ public class DirectAction extends WODirectAction
 			return (listAction());
 		}
 
-		// TODO: Use MessageRow or equivalent instead of Message directly
+		// TODO: Use WobmailMessage or equivalent instead of Message directly
 		Message message = session().getCurrentFolder()
 				.getMessageByIndex(messageIndex.intValue()).getMessage();
 

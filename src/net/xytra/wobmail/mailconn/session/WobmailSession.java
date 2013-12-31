@@ -3,6 +3,8 @@ package net.xytra.wobmail.mailconn.session;
 import javax.mail.Folder;
 import javax.mail.internet.MimeMessage;
 
+import com.webobjects.foundation.NSArray;
+
 import net.xytra.wobmail.mailconn.folder.WobmailFolder;
 import net.xytra.wobmail.mailconn.message.WobmailMessage;
 
@@ -18,6 +20,14 @@ public interface WobmailSession {
 	 * @param sessionID WebObjects <code>Session<code> ID.
 	 */
 	public void deregisterForWOSessionID(String sessionID);
+
+	/**
+	 * Get all <code>WobmailFolder</code>s under the root of this account.
+	 * Usually includes inbox.
+	 *
+	 * @return all top-level folders.
+	 */
+	public NSArray<WobmailFolder> getFolders();
 
 	/**
 	 * Get a new <code>WobmailFolder</code> for the current account's inbox.
