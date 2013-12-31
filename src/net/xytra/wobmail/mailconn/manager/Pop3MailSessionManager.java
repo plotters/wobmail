@@ -7,7 +7,7 @@ import javax.mail.MessagingException;
 
 import net.xytra.wobmail.application.Session;
 import net.xytra.wobmail.mailconn.session.WobmailSession;
-import net.xytra.wobmail.mailconn.session.Pop3MailSession;
+import net.xytra.wobmail.mailconn.session.pop3.Pop3WobmailSession;
 
 public class Pop3MailSessionManager implements MailSessionManager
 {
@@ -39,7 +39,7 @@ public class Pop3MailSessionManager implements MailSessionManager
 
 	public void registerMailSession(Session session, String username, String password) throws MessagingException
 	{
-		Pop3MailSession entry = new Pop3MailSession(username, password);
+		Pop3WobmailSession entry = new Pop3WobmailSession(username, password);
 
 		// Try a login before we do anything else
 		entry.keepConnectionOpen(true);

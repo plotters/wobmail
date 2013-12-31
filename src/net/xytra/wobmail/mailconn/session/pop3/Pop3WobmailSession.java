@@ -1,4 +1,4 @@
-package net.xytra.wobmail.mailconn.session;
+package net.xytra.wobmail.mailconn.session.pop3;
 
 import javax.mail.Folder;
 import javax.mail.MessagingException;
@@ -7,15 +7,16 @@ import net.xytra.wobmail.mailconn.WobmailException;
 import net.xytra.wobmail.mailconn.folder.WobmailFolder;
 import net.xytra.wobmail.mailconn.folder.WobmailFolderType;
 import net.xytra.wobmail.mailconn.folder.pop3.Pop3WobmailFolder;
+import net.xytra.wobmail.mailconn.session.AbstractWobmailSession;
 
 import com.webobjects.foundation.NSArray;
 
 
-public class Pop3MailSession extends AbstractWobmailSession
+public class Pop3WobmailSession extends AbstractWobmailSession
 {
 	private Folder inboxFolder = null;
 
-	public Pop3MailSession(String username, String password) {
+	public Pop3WobmailSession(String username, String password) {
 		super(username, password);
 	}
 
