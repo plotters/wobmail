@@ -4,9 +4,11 @@ import javax.mail.Folder;
 import javax.mail.MessagingException;
 
 import net.xytra.wobmail.mailconn.WobmailException;
+import net.xytra.wobmail.mailconn.WobmailStoreType;
 import net.xytra.wobmail.mailconn.folder.WobmailFolder;
 import net.xytra.wobmail.mailconn.folder.WobmailFolderType;
 import net.xytra.wobmail.mailconn.folder.pop3.Pop3WobmailFolder;
+import net.xytra.wobmail.mailconn.manager.Pop3WobmailSessionManager;
 import net.xytra.wobmail.mailconn.session.AbstractWobmailSession;
 
 import com.webobjects.foundation.NSArray;
@@ -18,6 +20,18 @@ public class Pop3WobmailSession extends AbstractWobmailSession
 
 	public Pop3WobmailSession(String username, String password) {
 		super(username, password);
+	}
+
+	// Main stuff
+
+	@Override
+	protected WobmailStoreType getStoreType() {
+		return (WobmailStoreType.pop3);
+	}
+
+	@Override
+	public void deregisterForWOSessionID(String sessionID) {
+		Pop3WobmailSessionManager.instance().deregisterEntry(sessionID)	;	
 	}
 
 	// Folders
@@ -43,11 +57,6 @@ public class Pop3WobmailSession extends AbstractWobmailSession
 		inboxFolder = obtainOpenFolder(inboxFolder);
 
 		return (inboxFolder);
-	}
-
-	@Override
-	protected String getMailProtocolName() {
-		return ("pop3");
 	}
 
 	@Override

@@ -1,6 +1,9 @@
 # Domain name or IP address of default incoming mail server 
 net.xytra.wobmail.DefaultIncomingMailServerAddress = 172.16.1.45
 
+# Type (TCP service) of incoming mail server: pop3 (default) or imap (not yet supported)
+net.xytra.wobmail.DefaultIncomingMailServerType = pop3
+
 # Application-wide encoding except ERJavaMail
 er.extensions.ERXApplication.DefaultMessageEncoding=UTF-8
 

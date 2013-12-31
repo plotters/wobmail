@@ -9,9 +9,10 @@ import java.util.Map;
 import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
 
+import net.xytra.wobmail.application.Application;
 import net.xytra.wobmail.application.Session;
 import net.xytra.wobmail.mailconn.WobmailException;
-import net.xytra.wobmail.mailconn.manager.Pop3MailSessionManager;
+import net.xytra.wobmail.mailconn.manager.WobmailSessionManager;
 import net.xytra.wobmail.util.LocaleUtils;
 
 import com.webobjects.appserver.WOComponent;
@@ -54,7 +55,7 @@ public class Main extends ERXNonSynchronizingComponent
 			return (this);
 		}
 
-		Pop3MailSessionManager manager = Pop3MailSessionManager.instance();
+		WobmailSessionManager manager = ((Application)Application.application()).getDefaultSessionManager();
 
 		try {
 			manager.registerMailSession((Session)session(), username, password);

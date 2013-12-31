@@ -14,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 
 import net.xytra.wobmail.application.Application;
 import net.xytra.wobmail.mailconn.WobmailException;
+import net.xytra.wobmail.mailconn.WobmailStoreType;
 import net.xytra.wobmail.mailconn.message.WobmailMessage;
 
 import com.webobjects.foundation.NSArray;
@@ -159,7 +160,11 @@ public abstract class AbstractWobmailSession implements WobmailSession
 		return (store);
 	}
 
-	protected abstract String getMailProtocolName();
+	protected String getMailProtocolName() {
+		return (getStoreType().name());
+	}
+
+	protected abstract WobmailStoreType getStoreType();
 
 	// Folders
 	protected abstract void forgetOpenFolders();

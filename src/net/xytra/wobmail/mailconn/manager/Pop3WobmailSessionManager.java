@@ -9,21 +9,22 @@ import net.xytra.wobmail.application.Session;
 import net.xytra.wobmail.mailconn.session.WobmailSession;
 import net.xytra.wobmail.mailconn.session.pop3.Pop3WobmailSession;
 
-public class Pop3MailSessionManager implements MailSessionManager
+public class Pop3WobmailSessionManager implements WobmailSessionManager
 {
-	private static Pop3MailSessionManager _instance = new Pop3MailSessionManager();
+	private static Pop3WobmailSessionManager _instance = new Pop3WobmailSessionManager();
 
 	private Map<String, WobmailSession> entries;
 
-	private Pop3MailSessionManager() {
+	private Pop3WobmailSessionManager() {
 		this.entries = new HashMap<String, WobmailSession>();
 	}
 
-	public static Pop3MailSessionManager instance() {
+	public static Pop3WobmailSessionManager instance() {
 		return (_instance);
 	}
 
 	// Registration
+	@Override
 	public void deregisterEntry(String sessionId)
 	{
 		if (sessionId == null)
@@ -37,13 +38,14 @@ public class Pop3MailSessionManager implements MailSessionManager
 		entries.remove(sessionId);
 	}
 
-	public void registerMailSession(Session session, String username, String password) throws MessagingException
+	@Override
+	public void registerMailSession(Session session, String username, String password) throws MessagingException 
 	{
 		Pop3WobmailSession entry = new Pop3WobmailSession(username, password);
 
 		// Try a login before we do anything else
 		entry.keepConnectionOpen(true);
-		
+
 		// Logging in to server worked, remember mail session
 		entries.put(session.sessionID(), entry);
 

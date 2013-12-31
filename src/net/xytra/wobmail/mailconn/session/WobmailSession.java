@@ -14,6 +14,12 @@ public interface WobmailSession {
 	public void closeSession();
 
 	/**
+	 * Tell this WobmailSession to deregister itself for the WebObject <code>Session</code> specified.
+	 * @param sessionID WebObjects <code>Session<code> ID.
+	 */
+	public void deregisterForWOSessionID(String sessionID);
+
+	/**
 	 * Get a new <code>WobmailFolder</code> for the current account's inbox.
 	 * If multiple <code>WobmailFolder</code>s are created for the inbox, they
 	 * will each have their own sorting/reverse setting and selection of

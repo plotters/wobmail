@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 
 import net.xytra.wobmail.export.ExportVisitor;
 import net.xytra.wobmail.mailconn.folder.WobmailFolder;
-import net.xytra.wobmail.mailconn.manager.Pop3MailSessionManager;
 import net.xytra.wobmail.mailconn.session.WobmailSession;
 import net.xytra.wobmail.util.LocaleUtils;
 
@@ -42,7 +41,7 @@ public class Session extends ERXSession
 	@Override
 	public void terminate()
 	{
-		Pop3MailSessionManager.instance().deregisterEntry(sessionID());
+		getMailSession().deregisterForWOSessionID(sessionID());
 		super.terminate();
 	}
 
