@@ -20,7 +20,7 @@ import com.webobjects.foundation.NSArray;
 
 import er.extensions.logging.ERXLogger;
 
-public abstract class AbstractMailSession implements MailSession
+public abstract class AbstractMailSession implements WobmailSession
 {
 	private TimerTask closeSessionTask;
 	private Session mailSession;
@@ -196,9 +196,9 @@ public abstract class AbstractMailSession implements MailSession
 
 	private class CloseStoreTimerTask extends TimerTask
 	{
-		private MailSession session;
+		private WobmailSession session;
 
-		public CloseStoreTimerTask(MailSession session) {
+		public CloseStoreTimerTask(WobmailSession session) {
 			this.session = session;
 		}
 

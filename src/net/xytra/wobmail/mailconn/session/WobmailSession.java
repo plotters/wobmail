@@ -6,7 +6,7 @@ import javax.mail.internet.MimeMessage;
 import net.xytra.wobmail.mailconn.folder.WobmailFolder;
 import net.xytra.wobmail.mailconn.message.WobmailMessage;
 
-public interface MailSession {
+public interface WobmailSession {
 
 	/**
 	 * Close this mail session.

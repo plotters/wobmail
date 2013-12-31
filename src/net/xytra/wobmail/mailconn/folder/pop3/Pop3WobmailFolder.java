@@ -10,7 +10,7 @@ import net.xytra.wobmail.mailconn.folder.WobmailFolder;
 import net.xytra.wobmail.mailconn.folder.WobmailFolderType;
 import net.xytra.wobmail.mailconn.message.WobmailMessage;
 import net.xytra.wobmail.mailconn.message.pop3.Pop3WobmailMessage;
-import net.xytra.wobmail.mailconn.session.MailSession;
+import net.xytra.wobmail.mailconn.session.WobmailSession;
 
 import com.webobjects.eocontrol.EOSortOrdering;
 import com.webobjects.foundation.NSArray;
@@ -27,7 +27,7 @@ import er.extensions.foundation.ERXArrayUtilities;
 public class Pop3WobmailFolder implements WobmailFolder {
 
 	// Associated session and absolute folder name
-	private final MailSession mailSession;
+	private final WobmailSession wobmailSession;
 	private final String folderName;
 
 	// Folder contents cached
@@ -35,8 +35,8 @@ public class Pop3WobmailFolder implements WobmailFolder {
 	private NSArray<Integer> cachedSortedMessageNumbers = null;
 	private NSArray<WobmailMessage> cachedSortedMessageRows = null;
 
-	public Pop3WobmailFolder(MailSession mailSession, String folderName) {
-		this.mailSession = mailSession;
+	public Pop3WobmailFolder(WobmailSession wobmailSession, String folderName) {
+		this.wobmailSession = wobmailSession;
 		this.folderName = folderName;
 	}
 
@@ -136,7 +136,7 @@ public class Pop3WobmailFolder implements WobmailFolder {
 			// Get all messages from INBOX
 			Message[] messages;
 			try {
-				messages = mailSession.obtainOpenFolder(folderName).getMessages();
+				messages = wobmailSession.obtainOpenFolder(folderName).getMessages();
 			} catch (MessagingException e) {
 				throw (new WobmailException(e));
 			}

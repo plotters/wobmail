@@ -6,17 +6,17 @@ import java.util.Map;
 import javax.mail.MessagingException;
 
 import net.xytra.wobmail.application.Session;
-import net.xytra.wobmail.mailconn.session.MailSession;
+import net.xytra.wobmail.mailconn.session.WobmailSession;
 import net.xytra.wobmail.mailconn.session.Pop3MailSession;
 
 public class Pop3MailSessionManager implements MailSessionManager
 {
 	private static Pop3MailSessionManager _instance = new Pop3MailSessionManager();
 
-	private Map<String, MailSession> entries;
+	private Map<String, WobmailSession> entries;
 
 	private Pop3MailSessionManager() {
-		this.entries = new HashMap<String, MailSession>();
+		this.entries = new HashMap<String, WobmailSession>();
 	}
 
 	public static Pop3MailSessionManager instance() {
@@ -29,7 +29,7 @@ public class Pop3MailSessionManager implements MailSessionManager
 		if (sessionId == null)
 			return;
 
-		MailSession entry = (MailSession)entries.get(sessionId);
+		WobmailSession entry = (WobmailSession)entries.get(sessionId);
 		if (entry == null)
 			return;
 

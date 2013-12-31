@@ -1,7 +1,7 @@
 package net.xytra.wobmail.components;
 
 import net.xytra.wobmail.application.Session;
-import net.xytra.wobmail.mailconn.session.MailSession;
+import net.xytra.wobmail.mailconn.session.WobmailSession;
 
 import com.webobjects.appserver.WOContext;
 
@@ -24,7 +24,7 @@ public class XWMAbstractPage extends ERXNonSynchronizingComponent
 	 * Convenience method to get the MailSession.
 	 * @return the WO session's associated MailSession.
 	 */
-	protected MailSession getMailSession() {
+	protected WobmailSession getMailSession() {
 		return session().getMailSession();
 	}
 

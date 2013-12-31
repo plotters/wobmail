@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import net.xytra.wobmail.export.ExportVisitor;
 import net.xytra.wobmail.mailconn.folder.WobmailFolder;
 import net.xytra.wobmail.mailconn.manager.Pop3MailSessionManager;
-import net.xytra.wobmail.mailconn.session.MailSession;
+import net.xytra.wobmail.mailconn.session.WobmailSession;
 import net.xytra.wobmail.util.LocaleUtils;
 
 import com.webobjects.foundation.NSDictionary;
@@ -24,7 +24,7 @@ public class Session extends ERXSession
 
 	private WobmailFolder currentFolder = null;
 
-	private MailSession mailSession;
+	private WobmailSession wobmailSession;
 
 	// To present dates
 	private DateFormat localizedDateTimeFormat;
@@ -67,12 +67,12 @@ public class Session extends ERXSession
 	}
 
 	// Mail session
-	public MailSession getMailSession() {
-		return (mailSession);
+	public WobmailSession getMailSession() {
+		return (wobmailSession);
 	}
 
-	public void setMailSession(MailSession ms) {
-		this.mailSession = ms;
+	public void setMailSession(WobmailSession ms) {
+		this.wobmailSession = ms;
 	}
 
 	// Current mail viewing parameters
