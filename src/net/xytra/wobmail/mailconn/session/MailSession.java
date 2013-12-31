@@ -8,13 +8,20 @@ import net.xytra.wobmail.mailconn.message.WobmailMessage;
 
 public interface MailSession {
 
+	/**
+	 * Close this mail session.
+	 */
 	public void closeSession();
 
 	/**
-	 * TODO: This method is a temporary convenience method.
-	 * @return
+	 * Get a new <code>WobmailFolder</code> for the current account's inbox.
+	 * If multiple <code>WobmailFolder</code>s are created for the inbox, they
+	 * will each have their own sorting/reverse setting and selection of
+	 * messages.  This is probably not what you want, so avoid using this where
+	 * possible.
+	 * 
+	 * @return a new WobmailFolder for the current account's Inbox.
 	 */
-	@Deprecated
 	public WobmailFolder getInboxFolder();
 
 	/**
