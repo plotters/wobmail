@@ -39,7 +39,7 @@ public class Pop3WobmailSessionManager implements WobmailSessionManager
 	}
 
 	@Override
-	public void registerMailSession(Session session, String username, String password) throws MessagingException 
+	public void registerWobmailSession(Session session, String username, String password) throws MessagingException 
 	{
 		Pop3WobmailSession entry = new Pop3WobmailSession(username, password);
 
@@ -50,7 +50,7 @@ public class Pop3WobmailSessionManager implements WobmailSessionManager
 		entries.put(session.sessionID(), entry);
 
 		// Setup the mail session in the WO Session for easy access
-		session.setMailSession(entry);
+		session.setWobmailSession(entry);
 	}
 
 }

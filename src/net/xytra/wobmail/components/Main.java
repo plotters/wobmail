@@ -58,7 +58,7 @@ public class Main extends ERXNonSynchronizingComponent
 		WobmailSessionManager manager = ((Application)Application.application()).getDefaultSessionManager();
 
 		try {
-			manager.registerMailSession((Session)session(), username, password);
+			manager.registerWobmailSession((Session)session(), username, password);
 		}
 		catch (AuthenticationFailedException e) {
 			// Failed authentication suggests we might want to null out password first:

@@ -61,7 +61,7 @@ public class XWMViewMessage extends XWMAbstractPage
 			message = session().getCurrentFolder().getMessageByIndex(getMessageIndex());
 
 			// Ensure connection is still open and folder too:
-			getMailSession().keepConnectionOpenForMessage(message);
+			getWobmailSession().keepConnectionOpenForMessage(message);
 		}
 
 		return (message);

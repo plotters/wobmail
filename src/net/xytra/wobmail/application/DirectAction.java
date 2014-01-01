@@ -87,7 +87,7 @@ public class DirectAction extends WODirectAction
 		// Folder
 		// TODO: Allow folder selection change using this below:
 //		String folderName = request().stringFormValueForKey("folder");
-//		WobmailFolder folder = session().getMailSession().getFolderWithName(folderName);
+//		WobmailFolder folder = session().getWobmailSession().getFolderWithName(folderName);
 //		session().setCurrentFolder(folder);
 
 		// Page number

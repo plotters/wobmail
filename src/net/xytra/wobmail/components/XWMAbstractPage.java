@@ -21,11 +21,11 @@ public class XWMAbstractPage extends ERXNonSynchronizingComponent
 	}
 
 	/**
-	 * Convenience method to get the MailSession.
-	 * @return the WO session's associated MailSession.
+	 * Convenience method to get the WobmailSession.
+	 * @return the WO session's associated WobmailSession.
 	 */
-	protected WobmailSession getMailSession() {
-		return session().getMailSession();
+	protected WobmailSession getWobmailSession() {
+		return session().getWobmailSession();
 	}
 
 	/**

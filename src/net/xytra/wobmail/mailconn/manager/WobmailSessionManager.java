@@ -17,6 +17,6 @@ public interface WobmailSessionManager {
 	 * @param password
 	 * @throws MessagingException if something went wrong when registering the mail session (authentication, etc.).
 	 */
-	public void registerMailSession(Session session, String username, String password) throws MessagingException;
+	public void registerWobmailSession(Session session, String username, String password) throws MessagingException;
 
 }

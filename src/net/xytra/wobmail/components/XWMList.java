@@ -138,7 +138,7 @@ public class XWMList extends XWMAbstractPage
 	public WobmailFolder currentFolder;
 
 	public NSArray<WobmailFolder> getAvailableFolders() {
-		return (session().getMailSession().getFolders());
+		return (getWobmailSession().getFolders());
 	}
 
 	// TODO: this most certainly has to be improved

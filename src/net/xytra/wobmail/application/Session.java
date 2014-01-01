@@ -41,7 +41,7 @@ public class Session extends ERXSession
 	@Override
 	public void terminate()
 	{
-		getMailSession().deregisterForWOSessionID(sessionID());
+		getWobmailSession().deregisterForWOSessionID(sessionID());
 		super.terminate();
 	}
 
@@ -66,11 +66,11 @@ public class Session extends ERXSession
 	}
 
 	// Mail session
-	public WobmailSession getMailSession() {
+	public WobmailSession getWobmailSession() {
 		return (wobmailSession);
 	}
 
-	public void setMailSession(WobmailSession ms) {
+	public void setWobmailSession(WobmailSession ms) {
 		this.wobmailSession = ms;
 	}
 
@@ -80,7 +80,7 @@ public class Session extends ERXSession
 	 */
 	public WobmailFolder getCurrentFolder() {
 		if (currentFolder == null) {
-			currentFolder = getMailSession().getInboxFolder();
+			currentFolder = getWobmailSession().getInboxFolder();
 		}
 
 		return (currentFolder);

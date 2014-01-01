@@ -134,7 +134,7 @@ public class XWMCompose extends XWMAbstractPage
 		if (forwardAsAttachment) {
 			attachMimeMessage((MimeMessage)message);
 		} else {
-			setConstituentMessage(getMailSession().obtainNewMimeMessage());
+			setConstituentMessage(getWobmailSession().obtainNewMimeMessage());
 			setSubject("Fwd: " + message.getSubject()); // TODO: localize the "Fwd:"
 			setEmailText(XWMUtils.quotedText(
 					XWMUtils.defaultStringContentForPart(message),
@@ -192,7 +192,7 @@ public class XWMCompose extends XWMAbstractPage
 	protected MimeMessage constituentMessage()
 	{
 		if (this.constituentMessage == null) {
-			this.constituentMessage = getMailSession().obtainNewMimeMessage();
+			this.constituentMessage = getWobmailSession().obtainNewMimeMessage();
 		}
 
 		return (this.constituentMessage);
