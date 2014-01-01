@@ -1,6 +1,6 @@
 Install.txt for Wobmail v0.3.0
 Jonathan Meijer
-Last updated: 2009-11-22
+Last updated: 2014-01-01
 
 -------------------------------------------------------------------------------
 Table of contents
@@ -19,13 +19,12 @@ Table of contents
 The following are the conditions in which v0.3.0 is developed, and therefore
 represent the configuration for which building works:
 
-- Mac OS X 10.4.11
-- Eclipse SDK 3.4.2
-- Subclipse 1.4.8
-- WOLips 3.4.5830
-- XCode 2.4.1
-- WebObjects 5.3.3
-- Project Wonder, version 5.0 (latest from SVN repository, 2009-11-20)
+- Mac OS X 10.6.8
+- Eclipse SDK 3.7.2
+- Subclipse 1.6.17
+- WOLips 3.7.?
+- WebObjects 5.4.3
+- Project Wonder, version 6.0 (latest from SVN repository, 2013-12-26)
 
 
 -------------------------------------------------------------------------------
@@ -71,6 +70,7 @@ and testing in development or deployment mode:
 4. Building for and Installation on Tomcat as standalone WAR
 -------------------------------------------------------------------------------
 
+(The following has not been updated since 0.2.0)
 The steps below assume the following:
 - the 5.0 Jar versions of the Wonder frameworks are in ~/Roots and the other
   versions are in /Library/WebObjects/lib;

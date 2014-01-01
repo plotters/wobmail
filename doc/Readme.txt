@@ -1,6 +1,6 @@
 Readme.txt for Wobmail v0.3.0
 Jonathan Meijer
-Last updated: 2009-11-21
+Last updated: 2014-01-01
 
 Project website:
 http://wobmail.googlecode.com/ or
@@ -15,9 +15,14 @@ For installation instructions, please read doc/Install.txt
 Version history
 
 Current version, 0.3.0, is under development.
+- issue  #7; Folder support
+- issue #12; Support to add attachments
 - issue #24: Updated to the latest Project Wonder
 - issue #25: Fixed rendering issue in Firefox due to script tag
 - issue #26: Changed all component action URLs to direct actions
+- issue #27; Upgrade for WebObjects 5.4.3 and Wonder 6
+- issue #28; Forcing a refresh of the message list via inbox link never shows new messages
+- issue #29; General clean up for 0.3.0 release
 
 Version, 0.2.0, released November 12, 2009, contains the following
  improvements:
