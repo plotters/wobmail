@@ -6,10 +6,7 @@ ComposeHyperlink: WOHyperlink {
 	string = session.localizer.XWMPageWrapper.Compose;
 }
 
-InboxHyperlink: WOHyperlink {
-	directActionName = "list";
-	string = session.localizer.XWMPageWrapper.Inbox;
-	?rl = 1;
+FolderPane : XWMFolderPane {
 }
 
 LoggedInAsString: XWMLocalizedString {

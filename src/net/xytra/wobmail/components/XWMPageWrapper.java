@@ -3,9 +3,7 @@ package net.xytra.wobmail.components;
 
 import com.webobjects.appserver.WOContext;
 
-import er.extensions.components.ERXNonSynchronizingComponent;
-
-public class XWMPageWrapper extends ERXNonSynchronizingComponent
+public class XWMPageWrapper extends XWMAbstractPage
 {
 	private static final String PAGE_WRAPPER_PAGE_NAME = "XWMPageWrapper";
 

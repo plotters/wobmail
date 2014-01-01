@@ -24,13 +24,13 @@
     "XWMList.NextPage" = "Next Page"; 
     "XWMList.None" = None; 
     "XWMList.PreviousPage" = "Previous Page"; 
+    "XWMList.Refresh" = Refresh; 
     "XWMList.Select" = Select; 
     "XWMList.Sender" = Sender; 
     "XWMList.Subject" = Subject; 
     "XWMList.messagesPerPage" = "messages per page"; 
     "XWMList.of" = of; 
     "XWMPageWrapper.Compose" = Compose; 
-    "XWMPageWrapper.Inbox" = Inbox; 
     "XWMPageWrapper.LoggedInAs" = "Logged in as"; 
     "XWMPageWrapper.Logout" = Logout; 
     "XWMViewMessage.Forward" = Forward; 

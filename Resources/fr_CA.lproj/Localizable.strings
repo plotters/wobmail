@@ -24,13 +24,13 @@
     "XWMList.NextPage" = "Page suivante"; 
     "XWMList.None" = Aucun; 
     "XWMList.PreviousPage" = "Page pr\U00e9c\U00e9dente"; 
+    "XWMList.Refresh" = "Rafra\U00eechir"; 
     "XWMList.Select" = "S\U00e9lectionner"; 
     "XWMList.Sender" = "Exp\U00e9diteur"; 
     "XWMList.Subject" = Sujet; 
     "XWMList.messagesPerPage" = "courriels par page"; 
     "XWMList.of" = de; 
     "XWMPageWrapper.Compose" = Composer; 
-    "XWMPageWrapper.Inbox" = "Bo\U00eete de r\U00e9ception"; 
     "XWMPageWrapper.LoggedInAs" = "Connect\U00e9 en tant que"; 
     "XWMPageWrapper.Logout" = "D\U00e9connexion"; 
     "XWMViewMessage.Forward" = "Transf\U00e9rer"; 

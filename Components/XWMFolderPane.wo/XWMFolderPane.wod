@@ -1,0 +1,21 @@
+
+FolderActiveConditional : WOConditional {
+	condition = isCurrentFolderActive;
+}
+
+FolderInactiveConditional : WOConditional {
+	condition = isCurrentFolderActive;
+	negate = true;
+}
+
+FolderNameHyperlink : WOHyperlink {
+	directActionName = "list";
+	string = currentFolder.name;
+	?folder = currentFolder.name;
+	?rl = "1";
+}
+
+FolderRepetition : WORepetition {
+	item = currentFolder;
+	list = availableFolders;
+}

@@ -90,6 +90,7 @@ public abstract class AbstractWobmailSession implements WobmailSession
 	}
 
 	// Session
+	@Override
 	synchronized public void closeSession()
 	{
 		System.err.println("closeSession()...");
@@ -172,6 +173,7 @@ public abstract class AbstractWobmailSession implements WobmailSession
 	protected abstract NSArray<Folder> getOpenFolders();
 
 	// Messages
+	@Override
 	public MimeMessage obtainNewMimeMessage() {
 		return (new MimeMessage(mailSession));
 	}

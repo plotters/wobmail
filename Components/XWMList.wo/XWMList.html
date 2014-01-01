@@ -1,66 +1,50 @@
 <webobject name="PageWrapper">
 	<script src="/wobmail/js/mailList.js" type="text/javascript"></script>
-	<table border="0" cellpadding="0" cellspacing="0" width="100%">
-		<tr>
-			<td valign="top" width="150">
-				<ul>
-					<webobject name="FolderRepetition">
-						<li>
-							<webobject name="FolderActiveConditional"><b><webobject name="FolderNameString" /></b></webobject>
-							<webobject name="FolderInactiveConditional"><webobject name="FolderNameHyperlink"></webobject></webobject>
-						</li>
+	<webobject name="DeleteMessagesForm">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td>
+					<div class="XWMlistOperations">
+						<webobject name="SelectString" />:
+						<webobject name="SelectAllMessagesHyperlink" />
+						<webobject name="SelectNoMessagesHyperlink" /> ::
+						<webobject name="RefreshListHyperlink" /> ::
+						<webobject name="DeleteSelectedMessagesButton" />
+					</div>
+				</td>
+				<td align="right">
+					<webobject name="ShowFirstPreviousConditional">
+						<webobject name="FirstPageHyperlink" />
+						<webobject name="PreviousPageHyperlink" />
 					</webobject>
-				</ul>
-			</td>
-			<td width="10">&nbsp;</td>
-			<td valign="top">
-				<webobject name="DeleteMessagesForm">
-					<table border="0" cellpadding="0" cellspacing="0" width="100%">
-						<tr>
-							<td>
-								<div class="XWMlistOperations">
-									<webobject name="SelectString" />:
-									<webobject name="SelectAllMessagesHyperlink" />
-									<webobject name="SelectNoMessagesHyperlink" />
-									<webobject name="DeleteSelectedMessagesButton" />
-								</div>
-							</td>
-							<td align="right">
-								<webobject name="ShowFirstPreviousConditional">
-									<webobject name="FirstPageHyperlink" />
-									<webobject name="PreviousPageHyperlink" />
-								</webobject>
-								<b><webobject name="StartIndexString" /></b> - <b><webobject name="EndIndexString" /></b> <webobject name="OfString" /> <b><webobject name="TotalNumberMessagesString" /></b>
-								<webobject name="ShowNextLastConditional">
-									<webobject name="NextPageHyperlink" />
-									<webobject name="LastPageHyperlink" />
-								</webobject>
-							</td>
-						</tr>
-					</table>
-					<table class="XWMmessageList" id="XWMmessageList">
-						<tr class="XWMheaderListRow">
-							<th>&nbsp;</th>
-							<th><webobject name="SubjectHeaderHyperlink" /></th>
-							<th><webobject name="SenderHeaderHyperlink" /></th>
-							<th><webobject name="DateSentHeaderHyperlink" /></th>
-						</tr>
-						<webobject name="MessageRepetition">
-							<webobject name="ListRowGeneric">
-								<td align="center"><webobject name="SelectMessageCheckbox" /></td>
-								<td><webobject name="MessageSubjectHyperlink" /></td>
-								<td nowrap><webobject name="SenderString" /></td>
-								<td nowrap><webobject name="DateSentString" /></td>
-							</webobject>
-						</webobject>
-					</table>
+					<b><webobject name="StartIndexString" /></b> - <b><webobject name="EndIndexString" /></b> <webobject name="OfString" /> <b><webobject name="TotalNumberMessagesString" /></b>
+					<webobject name="ShowNextLastConditional">
+						<webobject name="NextPageHyperlink" />
+						<webobject name="LastPageHyperlink" />
+					</webobject>
+				</td>
+			</tr>
+		</table>
+		<table class="XWMmessageList" id="XWMmessageList">
+			<tr class="XWMheaderListRow">
+				<th>&nbsp;</th>
+				<th><webobject name="SubjectHeaderHyperlink" /></th>
+				<th><webobject name="SenderHeaderHyperlink" /></th>
+				<th><webobject name="DateSentHeaderHyperlink" /></th>
+			</tr>
+			<webobject name="MessageRepetition">
+				<webobject name="ListRowGeneric">
+					<td align="center"><webobject name="SelectMessageCheckbox" /></td>
+					<td><webobject name="MessageSubjectHyperlink" /></td>
+					<td nowrap><webobject name="SenderString" /></td>
+					<td nowrap><webobject name="DateSentString" /></td>
 				</webobject>
-				<div class="XWMlistOperations">
-					<webobject name="NumPerPageForm">
-						<webobject name="DisplayString" /> <webobject name="NumPerPagePopUpButton" /> <webobject name="MessagesPerPageString" /> <webobject name="ChangeNumPerPageSubmitGeneric" />
-					</webobject>
-				</div>
-			</td>
-		</tr>
-	</table>
+			</webobject>
+		</table>
+	</webobject>
+	<div class="XWMlistOperations">
+		<webobject name="NumPerPageForm">
+			<webobject name="DisplayString" /> <webobject name="NumPerPagePopUpButton" /> <webobject name="MessagesPerPageString" /> <webobject name="ChangeNumPerPageSubmitGeneric" />
+		</webobject>
+	</div>
 </webobject>

@@ -30,7 +30,7 @@ public interface WobmailSession {
 	public NSArray<WobmailFolder> getFolders();
 
 	/**
-	 * Get a new <code>WobmailFolder</code> for the current account's inbox.
+	 * Get a (possibly) new <code>WobmailFolder</code> for the current account's inbox.
 	 * If multiple <code>WobmailFolder</code>s are created for the inbox, they
 	 * will each have their own sorting/reverse setting and selection of
 	 * messages.  This is probably not what you want, so avoid using this where

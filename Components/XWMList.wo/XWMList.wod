@@ -39,30 +39,6 @@ FirstPageHyperlink : WOHyperlink {
 	?page = 0;
 }
 
-FolderActiveConditional : WOConditional {
-	condition = isCurrentFolderActive;
-}
-
-FolderInactiveConditional : WOConditional {
-	condition = isCurrentFolderActive;
-	negate = true;
-}
-
-FolderNameHyperlink : WOHyperlink {
-	directActionName = "list";
-	string = currentFolder.name;
-	?folder = currentFolder.name;
-}
-
-FolderNameString : WOString {
-	value = currentFolder.name;
-}
-
-FolderRepetition : WORepetition {
-	item = currentFolder;
-	list = availableFolders;
-}
-
 LastPageHyperlink : WOHyperlink {
 	directActionName = "list";
 	string = session.localizer.XWMList.LastPage;
@@ -122,6 +98,12 @@ PreviousPageHyperlink: WOHyperlink {
 	directActionName = "list";
 	string = session.localizer.XWMList.PreviousPage;
 	?page = previousPageIndex;
+}
+
+RefreshListHyperlink: WOHyperlink {
+	directActionName = "list";
+	string = session.localizer.XWMList.Refresh;
+	?rl = "1";
 }
 
 SelectAllMessagesHyperlink: WOHyperlink {

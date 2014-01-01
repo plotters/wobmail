@@ -12,7 +12,9 @@ import net.xytra.wobmail.mailconn.manager.Pop3WobmailSessionManager;
 import net.xytra.wobmail.mailconn.session.AbstractWobmailSession;
 
 import com.webobjects.foundation.NSArray;
+import com.webobjects.foundation.NSDictionary;
 import com.webobjects.foundation.NSMutableArray;
+import com.webobjects.foundation.NSMutableDictionary;
 
 
 public class Pop3WobmailSession extends AbstractWobmailSession
@@ -36,32 +38,42 @@ public class Pop3WobmailSession extends AbstractWobmailSession
 	}
 
 	// Folders
+	// Much of the following can probably go in AbstractWobmailSession
 	private NSArray<WobmailFolder> folders;
+	private NSDictionary<String, WobmailFolder> foldersDict;
 
 	@Override
 	public NSArray<WobmailFolder> getFolders() {
 		if (folders == null) {
 			NSMutableArray<WobmailFolder> newFolders = new NSMutableArray<WobmailFolder>();
+			NSMutableDictionary<String, WobmailFolder> newFoldersDict = new NSMutableDictionary<String, WobmailFolder>();
 
 			try {
 				Folder rootFolder = getOpenStore().getDefaultFolder();
 				Folder[] topFolders = rootFolder.list();
 				for (int i=0; i<topFolders.length; i++) {
-					newFolders.addObject(new Pop3WobmailFolder(this, topFolders[i].getName()));
+					WobmailFolder wFolder = new Pop3WobmailFolder(this, topFolders[i].getName()); 
+					newFolders.addObject(wFolder);
+					newFoldersDict.setObjectForKey(wFolder, topFolders[i].getName());
 				}
 			} catch (MessagingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw (new WobmailException(e));
 			}
 			
 			folders = newFolders.immutableClone();
+			foldersDict = newFoldersDict.immutableClone();
 		}
 
 		return folders;
 	}
 
+	@Override
 	public WobmailFolder getInboxFolder() {
-		return (new Pop3WobmailFolder(this, WobmailFolderType.INBOX.name()));
+		// TODO: make this a bit more elegant
+		getFolders();
+
+//		return (new Pop3WobmailFolder(this, WobmailFolderType.INBOX.name()));
+		return (foldersDict.objectForKey(WobmailFolderType.INBOX.name()));
 	}
 
 	// Underlying Folder operations

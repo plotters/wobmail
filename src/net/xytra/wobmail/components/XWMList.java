@@ -6,7 +6,6 @@ import java.util.Enumeration;
 import javax.mail.MessagingException;
 
 import net.xytra.wobmail.application.Application;
-import net.xytra.wobmail.mailconn.folder.WobmailFolder;
 import net.xytra.wobmail.mailconn.folder.WobmailFolderType;
 import net.xytra.wobmail.mailconn.message.WobmailMessage;
 
@@ -132,22 +131,6 @@ public class XWMList extends XWMAbstractPage
 		while (en1.hasMoreElements()) {
 			en1.nextElement().setIsSelected(selected);
 		}
-	}
-
-	// Folders
-	public WobmailFolder currentFolder;
-
-	public NSArray<WobmailFolder> getAvailableFolders() {
-		return (getWobmailSession().getFolders());
-	}
-
-	// TODO: this most certainly has to be improved
-	public WobmailFolder getActiveFolder() {
-		return (session().getCurrentFolder());
-	}
-
-	public boolean isCurrentFolderActive() {
-		return (currentFolder.equals(getActiveFolder()));
 	}
 
 	// Data
