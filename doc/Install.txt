@@ -1,6 +1,6 @@
 Install.txt for Wobmail v0.3.0
 Jonathan Meijer
-Last updated: 2014-01-01
+Last updated: 2014-01-02
 
 -------------------------------------------------------------------------------
 Table of contents
@@ -20,8 +20,8 @@ The following are the conditions in which v0.3.0 is developed, and therefore
 represent the configuration for which building works:
 
 - Mac OS X 10.6.8
-- Eclipse SDK 3.7.2
-- Subclipse 1.6.17
+- Subclipse 1.6.17 (installed with Mac OS X 10.6.8)
+- Eclipse Indigo SR2 (3.7.2)
 - WOLips 3.7.?
 - WebObjects 5.4.3
 - Project Wonder, version 6.0 (latest from SVN repository, 2013-12-26)
@@ -32,10 +32,12 @@ represent the configuration for which building works:
 -------------------------------------------------------------------------------
 
 You should static-link the following file into the NonIncludedJARs folder:
-/System/Library/Frameworks/JavaWOJSPServlet.framework/WebServerResources/Java/JavaWOJSPServlet_client.jar
-
-You should also static-link the following file from tomcat's lib folder:
-servlet-api.jar
+ $WOFRAMEWORKS/JavaWOJSPServlet.framework/WebServerResources/Java/JavaWOJSPServlet_client.jar
+where WOFRAMEWORKS is either
+ /System/Library/Frameworks
+or
+ /Library/WebObjects/Versions/WebObjects543/System/Library/Frameworks
+depending on how WebObjects was installed.
 
 The following changes to the Properties file are recommended before building
 and testing in development or deployment mode:
@@ -54,12 +56,13 @@ and testing in development or deployment mode:
 3. Building for and Installation on Mac OS X
 -------------------------------------------------------------------------------
 
-(The following needs to be reviewed.)
+(NOTE: The following have not been tested since 0.3.0.)
 - Backup the existing wobmail.woa under /Library/WebObjects/Applications if
   necessary.
-- Ensure build.xml is added as an Ant buildfile in Eclipse.
-- Run the "install" target.  wobmail.woa will be installed under
-  /Library/WebObjects/Application.
+- Ensure WOLips Eclipse perspective is active;
+- In WO Explorer, right-click on the wobmail project and, in the context menu,
+  under "WOLips Ant Tools", select "Install".  wobmail.woa will be installed
+  under /Library/WebObjects/Application/
 - Modify wobmail.woa/MacOS/MacOSClassPath.txt or MacOSServerClassPath.txt by
   putting all paths starting with LOCALHOST before those with WOROOT.
 - Move wobmail.woa to the destination server and configure it as normal in the
@@ -70,27 +73,26 @@ and testing in development or deployment mode:
 4. Building for and Installation on Tomcat as standalone WAR
 -------------------------------------------------------------------------------
 
-(The following has not been updated since 0.2.0)
 The steps below assume the following:
-- the 5.0 Jar versions of the Wonder frameworks are in ~/Roots and the other
+- the 6.0 Jar versions of the Wonder frameworks are in ~/Roots and the other
   versions are in /Library/WebObjects/lib;
-- Apache Tomcat 5.5.28 can be used, 6.0.18 seems to be problematic.
+- Apache Tomcat 7.0.47 can be used.
 
 Here are the steps to build as standalone WAR:
-- On the target server, backup the existing wobmail.war if deemed necessary.
-- In Eclipse, ensure build.xml is added as an Ant buildfile in Eclipse.
-- Run the 'build [default]' target.
-- Open a Terminal window, cd to the wobmail project's deploytools directory and
-  run './buildwar.sh'.  wobmail.war is now a standalone WAR.
+- On the target server, backup the existing wobmail.war if deemed necessary;
+- Ensure WOLips Eclipse perspective is active;
+- In WO Explorer, right-click on the wobmail project and, in the context menu,
+  under "WOLips Ant Tools", select "Install".
 
 The WAR can now be deployed on the Tomcat server.
 
-You might want to copy over the css, images and js folder (from under
-WebServer) into the right place.  If testing straight on Tomcat, copy them (or
-extract them from the wobmail.jar) into the wobmail folder under webapps, under
-the Tomcat root folder.
+If Tomcat complains that the WAR file is too large, you may want to change
+max-file-size and max-request-size in web.xml under
+<TOMCAT_HOME>/webapps/manager/WEB-INF/ 
 
-cd wobmail &&
-jar xf WEB-INF/lib/wobmail.jar &&
-mv WebServerResources/WebServer/* ./ &&
-rm -rf net Resources WebServerResources
+You will likely want to copy over the css, images and js folder (from under
+WebServerResources) into the right place.  If testing straight on Tomcat, copy
+them into the wobmail folder under webapps, under the Tomcat root folder.
+
+cd <TOMCAT_HOME>/webapps/wobmail &&
+cp -a WEB-INF/wobmail.woa/Contents/WebServerResources/{css,images,js} ./
