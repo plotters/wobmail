@@ -28,16 +28,8 @@ represent the configuration for which building works:
 
 
 -------------------------------------------------------------------------------
-2. Tips on what to change before building
+2. Tips on what to change before building and deploying
 -------------------------------------------------------------------------------
-
-You should static-link the following file into the NonIncludedJARs folder:
- $WOFRAMEWORKS/JavaWOJSPServlet.framework/WebServerResources/Java/JavaWOJSPServlet_client.jar
-where WOFRAMEWORKS is either
- /System/Library/Frameworks
-or
- /Library/WebObjects/Versions/WebObjects543/System/Library/Frameworks
-depending on how WebObjects was installed.
 
 The following changes to the Properties file are recommended before building
 and testing in development or deployment mode:
