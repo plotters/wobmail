@@ -47,14 +47,6 @@ public interface WobmailFolder {
 	public boolean isReverseSort();
 
 	/**
-	 * Move messages to the specified folder.
-	 * TODO: Should use WobmailFolder instead of String to specify folder.
-	 * @param messageRows
-	 * @param folderName
-	 */
-	public void moveMessagesToFolder(NSArray<WobmailMessage> messageRows, String folderName);
-
-	/**
 	 * Sort this folder's message list and return the newly sorted list.
 	 * Sort this folder's message list using specified sorting key; do a
 	 * reverse sort if reverseSort is true.
@@ -63,5 +55,11 @@ public interface WobmailFolder {
 	 * @param reverseSort Whether to reverse sort.
 	 */
 	public void sortMessagesWithKey(String sortKey, boolean reverseSort);
+
+	/**
+	 * "Trash" the specified messages.  The definition "trash" is up to the implementation. 
+	 * @param messages
+	 */
+	public void trashMessages(NSArray<WobmailMessage> messages);
 
 }

@@ -19,8 +19,6 @@ import com.webobjects.foundation.NSMutableDictionary;
 
 public class Pop3WobmailSession extends AbstractWobmailSession
 {
-	private Folder inboxFolder = null;
-
 	public Pop3WobmailSession(String username, String password) {
 		super(username, password);
 	}
@@ -42,8 +40,12 @@ public class Pop3WobmailSession extends AbstractWobmailSession
 	private NSArray<WobmailFolder> folders;
 	private NSDictionary<String, WobmailFolder> foldersDict;
 
-	@Override
 	public NSArray<WobmailFolder> getFolders() {
+		// Keep it simple for now
+		return (getFoldersInternal());
+	}
+
+	private NSArray<WobmailFolder> getFoldersInternal() {
 		if (folders == null) {
 			NSMutableArray<WobmailFolder> newFolders = new NSMutableArray<WobmailFolder>();
 			NSMutableDictionary<String, WobmailFolder> newFoldersDict = new NSMutableDictionary<String, WobmailFolder>();
@@ -52,7 +54,7 @@ public class Pop3WobmailSession extends AbstractWobmailSession
 				Folder rootFolder = getOpenStore().getDefaultFolder();
 				Folder[] topFolders = rootFolder.list();
 				for (int i=0; i<topFolders.length; i++) {
-					WobmailFolder wFolder = new Pop3WobmailFolder(this, topFolders[i].getName()); 
+					WobmailFolder wFolder = new Pop3WobmailFolder(this, topFolders[i].getFullName()); 
 					newFolders.addObject(wFolder);
 					newFoldersDict.setObjectForKey(wFolder, topFolders[i].getName());
 				}
@@ -70,44 +72,48 @@ public class Pop3WobmailSession extends AbstractWobmailSession
 	@Override
 	public WobmailFolder getInboxFolder() {
 		// TODO: make this a bit more elegant
-		getFolders();
+		getFoldersInternal();
 
 //		return (new Pop3WobmailFolder(this, WobmailFolderType.INBOX.name()));
 		return (foldersDict.objectForKey(WobmailFolderType.INBOX.name()));
 	}
 
 	// Underlying Folder operations
-	public Folder obtainOpenFolder(String folderName) {
+	private NSMutableDictionary<String, Folder> openFolders = new NSMutableDictionary<String, Folder>();
+
+	public Folder obtainOpenFolderByFullName(String folderFullName) {
+		Folder folder = null;
+
+		// First, get folder by name (and cache it):
+		synchronized (openFolders) {
+			folder = openFolders.objectForKey(folderFullName);
+
+			if (folder == null) {
+				try {
+					folder = getOpenStore().getFolder(folderFullName);
+				} catch (MessagingException e) {
+					throw (new WobmailException(e));
+				}
+				openFolders.setObjectForKey(folder, folderFullName);
+			}
+		}
+
+		// Then ensure it is open:
 		try {
-			return obtainOpenInboxFolder();
+			return (obtainOpenFolder(folder));
 		} catch (MessagingException e) {
 			throw (new WobmailException(e));
 		}
 	}
 
-	synchronized protected Folder obtainOpenInboxFolder() throws MessagingException
-	{
-		if (inboxFolder == null) {
-			inboxFolder = getOpenStore().getFolder(WobmailFolderType.INBOX.name());
-		}
-
-		inboxFolder = obtainOpenFolder(inboxFolder);
-
-		return (inboxFolder);
-	}
-
 	@Override
 	protected void forgetOpenFolders() {
-		inboxFolder = null;
+		openFolders.removeAllObjects();
 	}
 
 	@Override
 	protected NSArray<Folder> getOpenFolders() {
-		if (inboxFolder == null) {
-			return (NSArray.EmptyArray);
-		} else {
-			return (new NSArray<Folder>(inboxFolder));
-		}
+		return (openFolders.allValues());
 	}
 
 }

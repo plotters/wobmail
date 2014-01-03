@@ -16,6 +16,7 @@ import net.xytra.wobmail.export.ExportVisitor;
 import net.xytra.wobmail.export.FileAttachmentExportVisitor;
 import net.xytra.wobmail.export.MailExportVisitor;
 import net.xytra.wobmail.export.MimeMessageExportVisitor;
+import net.xytra.wobmail.mailconn.message.WobmailMessage;
 import net.xytra.wobmail.util.XWMUtils;
 
 import com.webobjects.appserver.WOComponent;
@@ -130,12 +131,17 @@ public class XWMCompose extends XWMAbstractPage
 	}
 
 	// For direct actions
-	public void forwardMessage(Message message, boolean forwardAsAttachment) throws IOException, MessagingException {
+	public void forwardMessage(WobmailMessage wMessage, boolean forwardAsAttachment) throws IOException, MessagingException {
+		wMessage.keepConnectionOpen();
+
+		// Get actual underlying message
+		Message message = wMessage.getMessage();
+
 		if (forwardAsAttachment) {
 			attachMimeMessage((MimeMessage)message);
 		} else {
 			setConstituentMessage(getWobmailSession().obtainNewMimeMessage());
-			setSubject("Fwd: " + message.getSubject()); // TODO: localize the "Fwd:"
+			setSubject("Fwd: " + wMessage.getSubject()); // TODO: localize the "Fwd:"
 			setEmailText(XWMUtils.quotedText(
 					XWMUtils.defaultStringContentForPart(message),
 					message.getSentDate(),
@@ -145,7 +151,12 @@ public class XWMCompose extends XWMAbstractPage
 		}
 	}
 	
-	public void replyToMessage(Message message, boolean replyToAll) throws IOException, MessagingException {
+	public void replyToMessage(WobmailMessage wMessage, boolean replyToAll) throws IOException, MessagingException {
+		wMessage.keepConnectionOpen();
+
+		// Get actual underlying message
+		Message message = wMessage.getMessage();
+
 		setConstituentMessage((MimeMessage)message.reply(replyToAll));
 		setEmailText(XWMUtils.quotedText(
 				XWMUtils.defaultStringContentForPart(message),

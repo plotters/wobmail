@@ -2,12 +2,12 @@ package net.xytra.wobmail.mailconn.folder.pop3;
 
 import java.util.Enumeration;
 
+import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 
 import net.xytra.wobmail.mailconn.WobmailException;
 import net.xytra.wobmail.mailconn.folder.WobmailFolder;
-import net.xytra.wobmail.mailconn.folder.WobmailFolderType;
 import net.xytra.wobmail.mailconn.message.WobmailMessage;
 import net.xytra.wobmail.mailconn.message.pop3.Pop3WobmailMessage;
 import net.xytra.wobmail.mailconn.session.WobmailSession;
@@ -31,9 +31,24 @@ public class Pop3WobmailFolder implements WobmailFolder {
 	private final String folderName;
 
 	// Folder contents cached
+	/**
+	 * Dictionary of cached messages in Folder, mapping (store's message number) to WobmailMessage.
+	 */
 	private NSDictionary<Integer, WobmailMessage> cachedMessageRows = null;
+
+	/**
+	 * NSArray of the store's Message numbers for the messages ordered by sort and reverse.
+	 */
 	private NSArray<Integer> cachedSortedMessageNumbers = null;
+
+//	private NSMutableArray<Integer> cachedTrashedMessageNumbers = new NSMutableArray<Integer>();
+
+	/**
+	 * NSArray of the WobmailMessages, ordered according the order in cachedSortedMessageNumbers.
+	 */
 	private NSArray<WobmailMessage> cachedSortedMessageRows = null;
+
+//	private NSMutableArray<WobmailMessage> cachedTrashedMessageRows = new NSMutableArray<WobmailMessage>();
 
 	public Pop3WobmailFolder(WobmailSession wobmailSession, String folderName) {
 		this.wobmailSession = wobmailSession;
@@ -87,18 +102,6 @@ public class Pop3WobmailFolder implements WobmailFolder {
 		return (getMessages().count());
 	}
 
-	public void moveMessagesToFolder(NSArray<WobmailMessage> messageRows, String folderName) {
-		if (!WobmailFolderType.TRASH.name().equals(folderName)) {
-			throw (new WobmailException("Can only move to Trash in POP3.  Not allowed to use folderName="+folderName));
-		}
-
-		try {
-			moveMessageRowsToTrash(messageRows);
-		} catch (MessagingException e) {
-			throw (new WobmailException(e));
-		}
-	}
-
 	/**
 	 * Sort this folder's message list and return the newly sorted list.
 	 * Sort this folder's message list using specified sorting key; do a
@@ -133,10 +136,10 @@ public class Pop3WobmailFolder implements WobmailFolder {
 
 		// Only allow one such access at a time through this session
 		synchronized (this) {
-			// Get all messages from INBOX
+			// Get all messages from current folder
 			Message[] messages;
 			try {
-				messages = wobmailSession.obtainOpenFolder(folderName).getMessages();
+				messages = obtainOpenFolder().getMessages();
 			} catch (MessagingException e) {
 				throw (new WobmailException(e));
 			}
@@ -145,13 +148,17 @@ public class Pop3WobmailFolder implements WobmailFolder {
 
 			// Let's get each message in a wrapper and keep it all for future use:
 			for (int i=0; i<messages.length; i++) {
-				messageRowsArray.addObject(new Pop3WobmailMessage(messages[i]));
+				messageRowsArray.addObject(new Pop3WobmailMessage(wobmailSession, messages[i]));
 			}
 			
 			unsortedMessageRows = messageRowsArray.immutableClone();
 		}
 
 		return (unsortedMessageRows);
+	}
+
+	protected Folder obtainOpenFolder() {
+		return (wobmailSession.obtainOpenFolderByFullName(folderName));
 	}
 
 	protected NSArray<Integer> getMessageNumbersSorted(NSDictionary<Integer, WobmailMessage> messages) {
@@ -197,6 +204,15 @@ public class Pop3WobmailFolder implements WobmailFolder {
 	}
 
 	// delete/trash
+	@Override
+	public void trashMessages(NSArray<WobmailMessage> messages) {
+		try {
+			moveMessageRowsToTrash(messages);
+		} catch (MessagingException e) {
+			throw (new WobmailException(e));
+		}
+	}
+
 	protected void deleteMessage(WobmailMessage message) throws MessagingException {
 		((Pop3WobmailMessage)message).setIsDeleted(true);
 

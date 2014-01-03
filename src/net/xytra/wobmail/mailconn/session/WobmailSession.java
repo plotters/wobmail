@@ -53,11 +53,10 @@ public interface WobmailSession {
 
 	// Folders
 	/**
-	 * This method is marked as deprecated because this is not the right interface for this method.
-	 * @param folderName
+	 * This method is not the right interface.
+	 * @param folderFullName
 	 * @return
 	 */
-	@Deprecated
-	public Folder obtainOpenFolder(String folderName);
+	public Folder obtainOpenFolderByFullName(String folderFullName);
 
 }

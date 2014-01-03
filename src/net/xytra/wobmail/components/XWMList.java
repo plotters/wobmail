@@ -6,7 +6,6 @@ import java.util.Enumeration;
 import javax.mail.MessagingException;
 
 import net.xytra.wobmail.application.Application;
-import net.xytra.wobmail.mailconn.folder.WobmailFolderType;
 import net.xytra.wobmail.mailconn.message.WobmailMessage;
 
 import com.webobjects.appserver.WOComponent;
@@ -48,10 +47,9 @@ public class XWMList extends XWMAbstractPage
 	public WOComponent moveToTrashSelectedMessagesAction() throws MessagingException
 	{
 		// Mark selected messages as deleted and return to List
-		NSArray<WobmailMessage> selectedMessageRows = getSelectedMessageRows();
-		if (selectedMessageRows.size() > 0) {
-			getActiveFolder().moveMessagesToFolder(
-					selectedMessageRows, WobmailFolderType.TRASH.name());
+		NSArray<WobmailMessage> selectedMessages = getSelectedMessages();
+		if (selectedMessages.size() > 0) {
+			getActiveFolder().trashMessages(selectedMessages);
 
 			// Reset cached arrays
 			availableMessages = null;
@@ -82,7 +80,7 @@ public class XWMList extends XWMAbstractPage
 		return (currentMessage.isSelected() ? "checked" : "");
 	}
 
-	protected NSArray<WobmailMessage> getSelectedMessageRows() throws MessagingException {
+	protected NSArray<WobmailMessage> getSelectedMessages() throws MessagingException {
 		NSMutableArray<WobmailMessage> selectedMessageRows = new NSMutableArray<WobmailMessage>();
 		
 		// For each message in folder, add to array if marked as selected

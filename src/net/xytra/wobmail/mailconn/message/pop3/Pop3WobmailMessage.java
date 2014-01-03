@@ -8,12 +8,15 @@ import javax.mail.MessagingException;
 
 import net.xytra.wobmail.mailconn.WobmailException;
 import net.xytra.wobmail.mailconn.message.WobmailMessage;
+import net.xytra.wobmail.mailconn.session.WobmailSession;
 import net.xytra.wobmail.util.XWMUtils;
 
 import com.webobjects.foundation.NSKeyValueCoding;
 
 public class Pop3WobmailMessage implements WobmailMessage, NSKeyValueCoding
 {
+	private WobmailSession wobmailSession;
+
 	private Message message;
 
 	private Date dateSent;
@@ -24,7 +27,8 @@ public class Pop3WobmailMessage implements WobmailMessage, NSKeyValueCoding
 
 	private boolean isSelected = false;
 
-	public Pop3WobmailMessage(Message message) {
+	public Pop3WobmailMessage(WobmailSession wobmailSession, Message message) {
+		this.wobmailSession = wobmailSession;
 		this.message = message;
 	}
 
@@ -79,6 +83,11 @@ public class Pop3WobmailMessage implements WobmailMessage, NSKeyValueCoding
 		}
 
 		return (subject);
+	}
+
+	@Override
+	public void keepConnectionOpen() {
+		wobmailSession.keepConnectionOpenForMessage(this);
 	}
 
 	public boolean isDeleted() throws MessagingException {

@@ -23,6 +23,11 @@ public interface WobmailMessage {
 
 	public String getSubject();
 
+	/**
+	 * Instruct the message to tell keep its connection open or to reopen it.
+	 */
+	public void keepConnectionOpen();
+
 	public boolean isSelected();
 
 	public void setIsSelected(boolean value);

@@ -3,7 +3,6 @@ package net.xytra.wobmail.application;
 
 import java.io.IOException;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
 
 import net.xytra.wobmail.components.FileDownloadPage;
@@ -13,7 +12,6 @@ import net.xytra.wobmail.components.XWMCompose;
 import net.xytra.wobmail.components.XWMList;
 import net.xytra.wobmail.components.XWMViewMessage;
 import net.xytra.wobmail.export.ExportVisitable;
-import net.xytra.wobmail.mailconn.folder.WobmailFolderType;
 import net.xytra.wobmail.mailconn.message.WobmailMessage;
 import net.xytra.wobmail.mailconn.message.WobmailMessageUtils;
 
@@ -139,9 +137,7 @@ public class DirectAction extends WODirectAction
 		WobmailMessage message = session().getCurrentFolder()
 				.getMessageByIndex(messageIndex);
 
-		session().getCurrentFolder().moveMessagesToFolder(
-				new NSArray<WobmailMessage>(message),
-				WobmailFolderType.TRASH.name());
+		session().getCurrentFolder().trashMessages(new NSArray<WobmailMessage>(message));
 
 		// After deletion, return to list:
 		return (listAction());
@@ -167,9 +163,8 @@ public class DirectAction extends WODirectAction
 			return (listAction());
 		}
 
-		// TODO: Use WobmailMessage or equivalent instead of Message directly
-		Message message = session().getCurrentFolder()
-				.getMessageByIndex(messageIndex.intValue()).getMessage();
+		WobmailMessage message = session().getCurrentFolder()
+				.getMessageByIndex(messageIndex.intValue());
 
 		XWMCompose page = (XWMCompose)pageWithName(XWMCompose.class.getName());
 		page.forwardMessage(message, forwardAsAttachment);
@@ -197,9 +192,8 @@ public class DirectAction extends WODirectAction
 			return (listAction());
 		}
 
-		// TODO: Use WobmailMessage or equivalent instead of Message directly
-		Message message = session().getCurrentFolder()
-				.getMessageByIndex(messageIndex.intValue()).getMessage();
+		WobmailMessage message = session().getCurrentFolder()
+				.getMessageByIndex(messageIndex.intValue());
 
 		XWMCompose page = (XWMCompose)pageWithName(XWMCompose.class.getName());
 		page.replyToMessage(message, replyToAll);
